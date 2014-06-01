@@ -6,6 +6,7 @@
 
 package campmanager;
 
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -22,15 +23,12 @@ public class Parameters {
         this.maxRooms = maxRooms;
     }
     int maxRooms;
-    Vector camps;
-     // change to a more usable datatype 
-
-    public Vector getCamps() {
-        return camps;
+    int count;
+    Map room_costs;
+    
+    Parameters(){
+        
     }
-
-    public void setCamps(Vector camps) {
-        this.camps = camps;
-    }
+    
     
 }

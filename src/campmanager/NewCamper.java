@@ -101,6 +101,12 @@ public class NewCamper extends javax.swing.JDialog {
 
         jLabel4.setText("Phone No.");
 
+        jTextField_phone_area.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_phone_areaActionPerformed(evt);
+            }
+        });
+
         jLabel5.setText("Camp");
 
         jComboBox_camp.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Junior Accommodation (New East )", "Senior Accommodation (New East)\t\t", "Labour Accommodaion (New East)\t\t", "Labour Accommodaion (South Camp)\t\t", "Junior Accommodation(South Camp)" }));
@@ -205,7 +211,7 @@ public class NewCamper extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE))
         );
 
         pack();
@@ -277,6 +283,10 @@ public class NewCamper extends javax.swing.JDialog {
 
         jLabel_status.setText(camper.name+" Checked In");
     }//GEN-LAST:event_jButton_addActionPerformed
+
+    private void jTextField_phone_areaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_phone_areaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_phone_areaActionPerformed
 
     /**
      * @param args the command line arguments

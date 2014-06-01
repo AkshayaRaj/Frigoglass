@@ -104,6 +104,9 @@ public class Camper {
     public location getLoc() {
         return loc;
     }
+    public String getCampLoc(){
+        return camp_location;
+    }
     
     public void display(){
         System.out.println("Name: "+name);

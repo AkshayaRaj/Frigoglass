@@ -12,9 +12,22 @@ package campmanager;
  */
 public class CamperContainer {
     Camper camper[];
+    private int count;
     CamperContainer(Camper camper[]){
         this.camper=new Camper[camper.length];
         this.camper=camper;
     }
-    
+    CamperContainer(){
+        
+    }
+   Camper[] getCamper(){
+        return camper;
+    }
+   int getCount(){
+       return count;
+   }
+   
+   void setCount(int count){
+       this.count=count;
+   }
 }
