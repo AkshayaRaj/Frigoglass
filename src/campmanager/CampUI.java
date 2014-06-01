@@ -8,7 +8,18 @@ package campmanager;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -33,6 +44,8 @@ public class CampUI extends javax.swing.JFrame {
    int max_campers;
    int count;
    
+   private  String inputXML;
+   
    
    
    
@@ -41,14 +54,14 @@ public class CampUI extends javax.swing.JFrame {
    
     public CampUI() {
         initComponents();
-        max_campers=10;
+        max_campers=100;
         count=0;
         camper=new Camper[max_campers];
-        xstream =new XStream();
+        xstream =new XStream(new DomDriver());
         xstream.alias("Person", Camper.class);
-        xstream.alias("Room",Room.class);
+        xstream.alias("Container",CamperContainer.class);
         xstream.alias("Parameters",Parameters.class);
-        xstream.alias("Phone",Phone.class);
+        
        
     }
 
@@ -64,7 +77,12 @@ public class CampUI extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton_newRec = new javax.swing.JButton();
+        jLabel_record_count = new javax.swing.JLabel();
+        jLabel_count = new javax.swing.JLabel();
+        jButton_save = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
+        jTabbedPane3 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -79,24 +97,60 @@ public class CampUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel_record_count.setText("Record Count: ");
+
+        jButton_save.setText("Save");
+        jButton_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_saveActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Load");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton_newRec)
-                .addContainerGap(564, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton_newRec)
+                    .addComponent(jLabel_record_count))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel_count, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 280, Short.MAX_VALUE)
+                .addComponent(jButton_save)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(75, 75, 75))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
                 .addComponent(jButton_newRec)
-                .addGap(0, 388, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 316, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_record_count)
+                    .addComponent(jLabel_count, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_save)
+                    .addComponent(jButton1))
+                .addGap(28, 28, 28))
         );
 
         jTabbedPane1.addTab("Status", jPanel1);
-        jTabbedPane1.addTab("Preferences", jTabbedPane2);
+        jTabbedPane1.addTab("Graphs", jTabbedPane2);
+        jTabbedPane1.addTab("Preferences", jTabbedPane3);
 
         jMenu1.setText("File");
 
@@ -140,20 +194,80 @@ public class CampUI extends javax.swing.JFrame {
          j.setLocationRelativeTo(this);      
         j.setVisible(true);
         
+        
         camper[count]=j.camper;
         camper[count].display();
         count++;
         System.out.println(count);
+        
+        jLabel_count.setText( Integer.toString(count));
       
       
                 
     }//GEN-LAST:event_jButton_newRecActionPerformed
+
+    private void jButton_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saveActionPerformed
+        // TODO add your handling code here:
+        
+        String xml="";
+        
+        /*
+        for(int i=0;i<count;i++){
+            //serializing the persons to XML
+             xml=xml+xstream.toXML(camper[i])+"\n\n";
+            
+        }
+        */
+        
+        CamperContainer cont=new CamperContainer(camper);
+        xml=xstream.toXML(cont);
+       
+     //   System.out.println(xml);
+      FileOutputStream fop=null;
+      File xml_file;
+      try{
+          xml_file=new File("c:/campers.xml");
+          fop=new FileOutputStream(xml_file);
+          if(!xml_file.exists())
+                xml_file.createNewFile();
+          byte[] contentInBytes = xml.getBytes();
+          fop.write(contentInBytes);
+          fop.flush();
+          fop.close();
+          System.out.println("Written XML");
+          
+      }
+      catch(Exception e){
+          e.printStackTrace();
+      }
+        
+    }//GEN-LAST:event_jButton_saveActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File f = chooser.getSelectedFile();
+        String filename = f.getAbsolutePath();
+       try {
+           inputXML=readFile(filename,Charset.defaultCharset());
+           System.out.println(inputXML);
+       } catch (IOException ex) {
+           Logger.getLogger(CampUI.class.getName()).log(Level.SEVERE, null, ex);
+       }
+       
+       for(int i=0;i<2;i++){ //assume that there are 3 records 
+           camper[i]=(Camper)xstream.fromXML(inputXML);
+           camper[i].display();
+       }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
+        
+        
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -203,7 +317,11 @@ try {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_newRec;
+    private javax.swing.JButton jButton_save;
+    private javax.swing.JLabel jLabel_count;
+    private javax.swing.JLabel jLabel_record_count;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -211,9 +329,15 @@ try {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane jTabbedPane3;
     // End of variables declaration//GEN-END:variables
 
-   
+   static String readFile(String path, Charset encoding) 
+  throws IOException 
+{
+  byte[] encoded = Files.readAllBytes(Paths.get(path));
+  return new String(encoded, encoding);
+}
 
   
 }
