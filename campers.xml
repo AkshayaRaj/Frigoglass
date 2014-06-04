@@ -45,7 +45,15 @@
       <camp__location>JuniorNE</camp__location>
     </Person>
     <Person>
+      <name>akku</name>
+      <cec__no>234</cec__no>
+      <nationality>IND</nationality>
+      <phone__no>
+        <area>234</area>
+        <number>234</number>
+      </phone__no>
       <newEmployee>false</newEmployee>
+      <camp__location>SeniorNE</camp__location>
     </Person>
     <null/>
     <null/>
@@ -143,5 +151,5 @@
     <null/>
     <null/>
   </camper>
-  <count>4</count>
+  <count>5</count>
 </Container>

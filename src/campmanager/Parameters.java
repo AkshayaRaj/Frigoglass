@@ -15,16 +15,49 @@ import java.util.Vector;
  */
 public class Parameters {
 
-    public int getMaxRooms() {
+   
+    int maxRooms;
+    int max_records;
+    public Room [] rooms;
+    private int roomCount;
+    
+    
+    
+     public int getMaxRooms() {
         return maxRooms;
     }
 
     public void setMaxRooms(int maxRooms) {
         this.maxRooms = maxRooms;
     }
-    int maxRooms;
-    int count;
-    Map room_costs;
+
+    public int getMax_records() {
+        return max_records;
+    }
+
+    public void setMax_records(int max_records) {
+        this.max_records = max_records;
+    }
+
+    public Room[] getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Room[] rooms) {
+        this.rooms = new Room[rooms.length];
+        this.rooms=rooms;
+    }
+
+    public int getRoomCount() {
+        return roomCount;
+    }
+
+    public void setRoomCount(int roomCount) {
+        this.roomCount = roomCount;
+    }
+
+   
+    
     
     Parameters(){
         
@@ -32,3 +65,4 @@ public class Parameters {
     
     
 }
+

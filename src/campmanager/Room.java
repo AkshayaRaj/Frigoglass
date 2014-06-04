@@ -32,12 +32,33 @@ public class Room {
     public void setRoom_no(String room_no) {
         this.room_no = room_no;
     }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
         
+    
         Room(String bld_no,String room_no)  {
             this.bld_no=bld_no;
             this.room_no=room_no;
             
+            
 }
+        Room(){
+            
+        }
         
        
 }

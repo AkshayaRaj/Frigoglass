@@ -22,6 +22,7 @@ public class NewCamper extends javax.swing.JDialog {
 
     
      Camper camper;
+     boolean added;
     
     public String[] nationality;
     
@@ -31,7 +32,7 @@ public class NewCamper extends javax.swing.JDialog {
     public NewCamper(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+        added=false;
         camper=new Camper();
         jTextField_phone_area.setUI(new JTextFieldHintUI("Area",Color.gray));
         jTextField_phone_number.setUI(new JTextFieldHintUI("Number",Color.gray));
@@ -40,7 +41,8 @@ public class NewCamper extends javax.swing.JDialog {
         nationality =new String[] {"BAN","IND","NEP","PAK","PHIL","SRI"};
        
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -243,7 +245,7 @@ public class NewCamper extends javax.swing.JDialog {
 
     private void jButton_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addActionPerformed
         // TODO add your handling code here:
-       
+       added=true;
         try{
         camper.name=jTextField_name.getText();
         camper.cec_no=jTextField_CEC.getText();
@@ -251,8 +253,7 @@ public class NewCamper extends javax.swing.JDialog {
              camper.nationality=nationality[jComboBox_nationality.getSelectedIndex()]; // this will return the index of the selected item.. take care care to map the indexes properly
         else
              camper.nationality=jTextField_other_nationality.getText();
-       // camper.phone_no.setArea(Integer.parseInt(jTextField_phone_area.getText()));
-      //  camper.phone_no.setNumber(Integer.parseInt(jTextField_phone_number.getText()));
+
         camper.phone_no=new Phone(Integer.parseInt(jTextField_phone_area.getText()), Integer.parseInt(jTextField_phone_number.getText()));
        
         
@@ -263,7 +264,7 @@ public class NewCamper extends javax.swing.JDialog {
        
         if(jTextField_name.getCaretPosition()==0 || ((jTextField_CEC.getCaretPosition()==0) && !(jCheckBox_new_employee.isSelected()))){
             throw new NullPointerException();
-       // System.out.println("here");
+
             
          
         }
@@ -273,15 +274,23 @@ public class NewCamper extends javax.swing.JDialog {
         catch(NullPointerException e){
             final JPanel error=new JPanel();
             JOptionPane.showMessageDialog(error, "Please fill in all the details","Error",JOptionPane.ERROR_MESSAGE);
+            added=false;
             
         }
         catch(NumberFormatException e){
              final JPanel error=new JPanel();
             JOptionPane.showMessageDialog(error, "Please enter the data correctly","Error",JOptionPane.ERROR_MESSAGE);
-            
+            added=false;
         }
 
         jLabel_status.setText(camper.name+" Checked In");
+        
+        if(added){
+            final JPanel info=new JPanel();
+            JOptionPane.showMessageDialog(info, jTextField_name.getText()+" checked in .. ","Information",JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        }
+        
     }//GEN-LAST:event_jButton_addActionPerformed
 
     private void jTextField_phone_areaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_phone_areaActionPerformed
@@ -322,6 +331,7 @@ public class NewCamper extends javax.swing.JDialog {
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
+                      
                         System.exit(0);
                     }
                 });
