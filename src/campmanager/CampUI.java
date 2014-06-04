@@ -9,27 +9,20 @@ package campmanager;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Vector;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -39,7 +32,20 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-
+import java.io.FileNotFoundException;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+ 
 
 /**
  *
@@ -66,6 +72,8 @@ public class CampUI extends javax.swing.JFrame {
    private int rooms_counter;
    //settings 
    
+   public LinkedList roomsLL;
+   
    
    
   
@@ -89,8 +97,31 @@ public class CampUI extends javax.swing.JFrame {
         jLabel_count.setText(Integer.toString(count));
        
         
+             addWindowListener(new WindowAdapter() {
+
+  @Override
+  public void windowClosing(WindowEvent we)
+  { 
+    String ObjButtons[] = {"Yes","No"};
+    int PromptResult = JOptionPane.showOptionDialog(null, 
+        "Are you sure you want to exit?", "Frigoglass Camp Manager", 
+        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
+        ObjButtons,ObjButtons[1]);
+    if(PromptResult==0)
+    {
+        int savetResult = JOptionPane.showOptionDialog(null, 
+        "Save records before closing?", "Frigoglass Camp Manager", 
+        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
+        ObjButtons,ObjButtons[1]);
+        if(savetResult==0)
+            jButton_saveActionPerformed(null);
         
-        
+      saveSettings(); //save settings
+      System.exit(0);          
+    }
+  }
+             } );
+   
    
     }
     
@@ -156,7 +187,11 @@ public class CampUI extends javax.swing.JFrame {
              rooms_counter=param.getRoomCount();
              availableRooms=new Room[param.getMaxRooms()];
             availableRooms=param.getRooms();
-     
+            roomsLL=new LinkedList();
+            for(int i=0;i<param.getRoomCount();i++)
+                roomsLL.add(availableRooms[i]);
+                
+             System.out.println("Size of roomsLL: "+roomsLL.size());
          }
          else{
             defaultSettings();
@@ -171,9 +206,54 @@ public class CampUI extends javax.swing.JFrame {
              param.setMaxRooms(50);
              param.setMax_records(500);
             jButton_save_settingsActionPerformed(null);
-            final JPanel info=new JPanel();
-            JOptionPane.showMessageDialog(info, "Default settings loaded","Information",JOptionPane.INFORMATION_MESSAGE);
+            
+            roomsLL=new LinkedList();                    
+            JOptionPane.showMessageDialog(null, "Default settings loaded","Information",JOptionPane.INFORMATION_MESSAGE);
     }
+    
+      public void updateSettingsUI(){
+          jLabel_rooms_available.setText(Integer.toString(rooms_counter));
+        System.out.println(rooms_counter);
+//         System.out.println(availableRooms[0].getRoom_no());
+        DefaultListModel lm=new DefaultListModel();
+            for(int t=0;t<rooms_counter;t++)
+                 lm.addElement(availableRooms[t].getRoom_no());
+        this.jList_rooms.setModel(lm);
+        jSpinner_max_records.setValue(param.getMax_records());
+        jSpinner_max_rooms.setValue(param.getMaxRooms());
+    }
+      
+      public void saveSettings(){
+           Parameters param_ = new Parameters();
+        param_.setRooms(availableRooms);
+        param_.setRoomCount(rooms_counter);
+        param_.setRoomLL(roomsLL);
+        if(rooms_counter<Integer.parseInt(jSpinner_max_rooms.getValue().toString()))
+                param_.setMaxRooms(Integer.parseInt(jSpinner_max_rooms.getValue().toString()));
+        if(count<Integer.parseInt(jSpinner_max_records.getValue().toString()))
+                param_.setMax_records(Integer.parseInt(jSpinner_max_records.getValue().toString()));
+        //saving code goes here 
+        paramXML=xstream.toXML(param_);
+        
+        FileOutputStream fop=null;
+        File xml_file;
+        try{
+            //xml_file=new File("c:/campers.xml");
+            xml_file=new File("settings.xml");
+            fop=new FileOutputStream(xml_file);
+            if(!xml_file.exists())
+            xml_file.createNewFile();
+            byte[] contentInBytes = paramXML.getBytes();
+            fop.write(contentInBytes);
+            fop.flush();
+            fop.close();
+            System.out.println("Written Settings");
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+      }
     public void updateTable(){
         DefaultTableModel model=(DefaultTableModel) jTable_records.getModel();
         //clear !!
@@ -182,11 +262,40 @@ public class CampUI extends javax.swing.JFrame {
         //set column width for serial # 
         
         for(int i=0;i<count;i++){      
-              model.addRow(new Object[]{i+1,camper[i].getCec_no(),camper[i].getName(),camper[i].getNationality(),"Building#","Room#",Integer.toString(camper[i].getPhone_no().area)+"-"+Integer.toString(camper[i].getPhone_no().number),camper[i].getCampLoc()});          }
+            String serial=Integer.toString(i+1);
+              model.addRow(new Object[]{serial,camper[i].getCec_no(),camper[i].getName(),camper[i].getNationality(),"Building#","Room#",Integer.toString(camper[i].getPhone_no().area)+"-"+Integer.toString(camper[i].getPhone_no().number),camper[i].getCampLoc()});          }
         resizeColumnWidth(jTable_records);
     }
     
+    public void exportToExcel(){
+        try {
+         DefaultTableModel dtm=(DefaultTableModel) jTable_records.getModel();
+    Workbook wb = new HSSFWorkbook();
+    CreationHelper createhelper = wb.getCreationHelper();
+    Sheet sheet = wb.createSheet("new sheet");
+    Row row = null;
+    Cell cell = null;
+    for (int i=0;i<dtm.getRowCount();i++) {
+        row = sheet.createRow(i);
+        for (int j=0;j<dtm.getColumnCount();j++) {
+             
+            cell = row.createCell(j);
+            cell.setCellValue((String) dtm.getValueAt(i, j));
+        }
+    }
+     
     
+    FileOutputStream out = new FileOutputStream("C:\\workbook.xls");
+    wb.write(out);
+    out.close();
+} catch (FileNotFoundException ex) {
+    ex.printStackTrace();
+} catch (IOException ex) {
+   ex.printStackTrace();
+}
+    }
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -210,6 +319,7 @@ public class CampUI extends javax.swing.JFrame {
         jLabel_count = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel_rooms_available = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -231,7 +341,7 @@ public class CampUI extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jButton_newRec.setText("New Record");
         jButton_newRec.addActionListener(new java.awt.event.ActionListener() {
@@ -263,7 +373,7 @@ public class CampUI extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false
@@ -285,9 +395,9 @@ public class CampUI extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), "Stats", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        jLabel_record_count.setText("Record Count: ");
+        jLabel_record_count.setText("Record Count ");
 
-        jLabel3.setText("Rooms Available:");
+        jLabel3.setText("Total Rooms");
 
         jLabel_rooms_available.setText("  ");
 
@@ -322,6 +432,13 @@ public class CampUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButton3.setText("Save as Excel");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -333,11 +450,14 @@ public class CampUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_newRec)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_save)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton_newRec)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton_save)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1))
+                            .addComponent(jButton3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
@@ -350,15 +470,17 @@ public class CampUI extends javax.swing.JFrame {
                         .addGap(9, 9, 9)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton_save)
                             .addComponent(jButton1)
-                            .addComponent(jButton_newRec)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20)
+                            .addComponent(jButton_newRec))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)))
+                .addGap(19, 19, 19)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -644,53 +766,32 @@ public class CampUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     
-    public void updateSettingsUI(){
-        System.out.println(rooms_counter);
-//         System.out.println(availableRooms[0].getRoom_no());
-        DefaultListModel lm=new DefaultListModel();
-            for(int t=0;t<rooms_counter;t++)
-                 lm.addElement(availableRooms[t].getRoom_no());
-        this.jList_rooms.setModel(lm);
-        jSpinner_max_records.setValue(param.getMax_records());
-        jSpinner_max_rooms.setValue(param.getMaxRooms());
-    }
+  
     
     private void jButton_save_settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_save_settingsActionPerformed
         // TODO add your handling code here:
-        Parameters param_ = new Parameters();
-        param_.setRooms(availableRooms);
-        param_.setRoomCount(rooms_counter);
-        if(rooms_counter<Integer.parseInt(jSpinner_max_rooms.getValue().toString()))
-                param_.setMaxRooms(Integer.parseInt(jSpinner_max_rooms.getValue().toString()));
-        if(count<Integer.parseInt(jSpinner_max_records.getValue().toString()))
-                param_.setMax_records(Integer.parseInt(jSpinner_max_records.getValue().toString()));
-        //saving code goes here 
-        paramXML=xstream.toXML(param_);
+        saveSettings();
+       
+        updateSettingsUI();
         
-        FileOutputStream fop=null;
-        File xml_file;
-        try{
-            //xml_file=new File("c:/campers.xml");
-            xml_file=new File("settings.xml");
-            fop=new FileOutputStream(xml_file);
-            if(!xml_file.exists())
-            xml_file.createNewFile();
-            byte[] contentInBytes = paramXML.getBytes();
-            fop.write(contentInBytes);
-            fop.flush();
-            fop.close();
-            System.out.println("Written Settings");
-
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+        JOptionPane.showMessageDialog(null, "Settings saved","Information",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton_save_settingsActionPerformed
 
+    
+    
+    
+    
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         defaultSettings();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+      
+        exportToExcel();
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -771,6 +872,7 @@ try {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton_newRec;
     private javax.swing.JButton jButton_save;
@@ -812,5 +914,7 @@ try {
   return new String(encoded, encoding);
 }
 
-  
+       
+ 
+         
 }

@@ -69,9 +69,17 @@ public class NewCamper extends javax.swing.JDialog {
         jButton_add = new javax.swing.JButton();
         jLabel_status = new javax.swing.JLabel();
         jTextField_other_nationality = new javax.swing.JTextField();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel_nationality_status_analyser = new javax.swing.JLabel();
+        jLabel_rooms_with_nationality = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jTabbedPane2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTabbedPane2FocusGained(evt);
+            }
+        });
 
         jPanel1.setPreferredSize(new java.awt.Dimension(405, 400));
 
@@ -201,13 +209,39 @@ public class NewCamper extends javax.swing.JDialog {
         );
 
         jTabbedPane2.addTab("Single ", jPanel1);
-        jTabbedPane2.addTab("Multiple", jTabbedPane3);
+
+        jLabel_nationality_status_analyser.setText("jLabel6");
+
+        jLabel_rooms_with_nationality.setText("jLabel7");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel_nationality_status_analyser)
+                .addGap(28, 28, 28)
+                .addComponent(jLabel_rooms_with_nationality)
+                .addContainerGap(308, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_nationality_status_analyser)
+                    .addComponent(jLabel_rooms_with_nationality))
+                .addContainerGap(235, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Analyser", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+            .addComponent(jTabbedPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,6 +331,11 @@ public class NewCamper extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_phone_areaActionPerformed
 
+    private void jTabbedPane2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane2FocusGained
+        // TODO add your handling code here:
+        jLabel_nationality_status_analyser.setText("Rooms with "+jComboBox_nationality.getSelectedItem().toString()+" nationality");
+    }//GEN-LAST:event_jTabbedPane2FocusGained
+
     /**
      * @param args the command line arguments
      */
@@ -350,10 +389,12 @@ public class NewCamper extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel_nationality_status_analyser;
+    private javax.swing.JLabel jLabel_rooms_with_nationality;
     private javax.swing.JLabel jLabel_status;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTextField jTextField_CEC;
     private javax.swing.JTextField jTextField_name;
     private javax.swing.JTextField jTextField_other_nationality;

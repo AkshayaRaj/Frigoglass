@@ -6,6 +6,7 @@
 
 package campmanager;
 
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Vector;
 
@@ -20,6 +21,7 @@ public class Parameters {
     int max_records;
     public Room [] rooms;
     private int roomCount;
+    private LinkedList roomLL;
     
     
     
@@ -54,6 +56,14 @@ public class Parameters {
 
     public void setRoomCount(int roomCount) {
         this.roomCount = roomCount;
+    }
+
+    public LinkedList getRoomLL() {
+        return roomLL;
+    }
+
+    public void setRoomLL(LinkedList roomLL) {
+        this.roomLL = roomLL;
     }
 
    
