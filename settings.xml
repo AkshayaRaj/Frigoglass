@@ -3,9 +3,14 @@
   <max__records>500</max__records>
   <rooms>
     <campmanager.Room>
-      <room__no>101 A</room__no>
+      <room__no>123 A</room__no>
       <capacity>3</capacity>
       <cost>500</cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <room__no>123 B</room__no>
+      <capacity>5</capacity>
+      <cost>700</cost>
     </campmanager.Room>
     <null/>
     <null/>
@@ -55,10 +60,10 @@
     <null/>
     <null/>
     <null/>
-    <null/>
   </rooms>
-  <roomCount>1</roomCount>
+  <roomCount>2</roomCount>
   <roomLL>
     <campmanager.Room reference="../../rooms/campmanager.Room"/>
+    <campmanager.Room reference="../../rooms/campmanager.Room[2]"/>
   </roomLL>
 </Parameters>

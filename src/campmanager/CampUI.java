@@ -12,16 +12,19 @@ import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -32,14 +35,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import java.io.FileNotFoundException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
@@ -95,7 +91,7 @@ public class CampUI extends javax.swing.JFrame {
         updateSettingsUI();
         
         jLabel_count.setText(Integer.toString(count));
-       
+       jTable_records.setAutoCreateRowSorter(true);
         
              addWindowListener(new WindowAdapter() {
 
@@ -268,6 +264,23 @@ public class CampUI extends javax.swing.JFrame {
     }
     
     public void exportToExcel(){
+        JFrame parentFrame = new JFrame();
+            File fileToSave=null; ;
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Save File");   
+
+            int userSelection = fileChooser.showSaveDialog(parentFrame);
+ 
+                if (userSelection == JFileChooser.APPROVE_OPTION) {
+                              fileToSave = fileChooser.getSelectedFile();
+                  // System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+        }
+                if(fileToSave!=null){
+                    
+                
+        String fileName=fileToSave.getAbsolutePath();
+        if(!fileName.endsWith(".xls"))
+            fileName+=".xls";
         try {
          DefaultTableModel dtm=(DefaultTableModel) jTable_records.getModel();
     Workbook wb = new HSSFWorkbook();
@@ -285,7 +298,7 @@ public class CampUI extends javax.swing.JFrame {
     }
      
     
-    FileOutputStream out = new FileOutputStream("C:\\workbook.xls");
+    FileOutputStream out = new FileOutputStream(fileName);
     wb.write(out);
     out.close();
 } catch (FileNotFoundException ex) {
@@ -295,7 +308,7 @@ public class CampUI extends javax.swing.JFrame {
 }
     }
     
-   
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -320,6 +333,8 @@ public class CampUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel_rooms_available = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -328,8 +343,8 @@ public class CampUI extends javax.swing.JFrame {
         jLabel_bed_cost = new javax.swing.JLabel();
         jLabel_beds = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel_capacity_status = new javax.swing.JLabel();
+        jLabel_cost_status = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jSpinner_max_records = new javax.swing.JSpinner();
         jButton_save_settings = new javax.swing.JButton();
@@ -342,6 +357,13 @@ public class CampUI extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Frigoglass Camp Manager Suite v1.00");
+
+        jTabbedPane1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTabbedPane1FocusGained(evt);
+            }
+        });
 
         jButton_newRec.setText("New Record");
         jButton_newRec.addActionListener(new java.awt.event.ActionListener() {
@@ -439,6 +461,10 @@ public class CampUI extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("Save As..");
+
+        jButton6.setText("Clear Database");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -451,13 +477,17 @@ public class CampUI extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton_newRec)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton_save)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1))
-                            .addComponent(jButton3))
+                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
@@ -468,20 +498,22 @@ public class CampUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton_save)
                             .addComponent(jButton1)
-                            .addComponent(jButton_newRec))
+                            .addComponent(jButton_newRec)
+                            .addComponent(jButton3)
+                            .addComponent(jButton5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                        .addComponent(jButton6)))
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -490,6 +522,11 @@ public class CampUI extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Rooms", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
+        jList_rooms.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList_roomsValueChanged(evt);
+            }
+        });
         jScrollPane3.setViewportView(jList_rooms);
 
         jLabel_bed_cost.setText("Bed Cost");
@@ -503,9 +540,9 @@ public class CampUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("jLabel4");
+        jLabel_capacity_status.setText("-");
 
-        jLabel5.setText("jLabel5");
+        jLabel_cost_status.setText("-");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -513,17 +550,17 @@ public class CampUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel_bed_cost)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5))
+                        .addComponent(jLabel_cost_status))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel_beds)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4))
+                        .addComponent(jLabel_capacity_status))
                     .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -531,19 +568,19 @@ public class CampUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_beds)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel_capacity_status))
                         .addGap(20, 20, 20)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_bed_cost)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel_cost_status))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jLabel2.setText("Maximum Records");
@@ -609,7 +646,7 @@ public class CampUI extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(106, 106, 106)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_save_settings)
                     .addComponent(jButton4))
@@ -718,6 +755,8 @@ public class CampUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         j=new NewCamper(this,true);
         j.setLocationRelativeTo(this);
+        System.out.println(roomsLL);
+        j.setRoomsLL(roomsLL);
         j.setVisible(true);
         
        // System.out.println(j);
@@ -753,6 +792,8 @@ public class CampUI extends javax.swing.JFrame {
                  lm.addElement(availableRooms[t].getRoom_no());
          this.jList_rooms.setModel(lm);
             rooms_counter++;
+            
+            roomsLL.add(i.room);
         }
         
         
@@ -792,6 +833,35 @@ public class CampUI extends javax.swing.JFrame {
         exportToExcel();
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTabbedPane1FocusGained
+
+    private void jList_roomsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList_roomsValueChanged
+        // TODO add your handling code here:
+       // System.out.println("changed");
+        if (!evt.getValueIsAdjusting()){
+            String room_no;
+            try{
+                 room_no=jList_rooms.getSelectedValue().toString();
+            }
+            catch(NullPointerException e){
+                 room_no=jList_rooms.getModel().getElementAt(0).toString();
+            }
+           // System.out.println("Got:"+room_no+"!");
+            ListIterator itr=roomsLL.listIterator();
+            while(itr.hasNext()){
+                Room room=(Room)itr.next();
+               // System.out.println("Real:"+room.getRoom_no()+"!");
+                if(room.getRoom_no().equals(room_no)){
+                   // System.out.println("Here!");
+                    jLabel_capacity_status.setText(Integer.toString(room.getCapacity()));
+                    jLabel_cost_status.setText(Integer.toString(room.getCost()));
+                }
+            }
+        }
+    }//GEN-LAST:event_jList_roomsValueChanged
 
     /**
      * @param args the command line arguments
@@ -874,16 +944,18 @@ try {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton_newRec;
     private javax.swing.JButton jButton_save;
     private javax.swing.JButton jButton_save_settings;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel_bed_cost;
     private javax.swing.JLabel jLabel_beds;
+    private javax.swing.JLabel jLabel_capacity_status;
+    private javax.swing.JLabel jLabel_cost_status;
     private javax.swing.JLabel jLabel_count;
     private javax.swing.JLabel jLabel_max_rooms;
     private javax.swing.JLabel jLabel_record_count;
