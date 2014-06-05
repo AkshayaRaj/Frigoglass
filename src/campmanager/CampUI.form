@@ -90,9 +90,9 @@
                           <Component id="jScrollPane2" pref="919" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace pref="151" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Component id="jButton_newRec" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jButton3" min="-2" max="-2" attributes="0"/>
@@ -103,7 +103,11 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jButton6" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jButton_checkout" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jButton6" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel1" min="-2" pref="151" max="-2" attributes="0"/>
@@ -135,7 +139,10 @@
                                   <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton6" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButton_checkout" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
@@ -148,7 +155,7 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="jButton_newRec">
               <Properties>
-                <Property name="text" type="java.lang.String" value="New Record"/>
+                <Property name="text" type="java.lang.String" value="Check In"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_newRecActionPerformed"/>
@@ -164,7 +171,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Load"/>
+                <Property name="text" type="java.lang.String" value="Load Database"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
@@ -184,7 +191,7 @@
                     <Component class="javax.swing.JTable" name="jTable_records">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="8" rowCount="0">
+                          <Table columnCount="9" rowCount="0">
                             <Column editable="false" title="Sr.#" type="java.lang.String"/>
                             <Column editable="false" title="CEC NO." type="java.lang.String"/>
                             <Column editable="false" title="NAME" type="java.lang.String"/>
@@ -193,6 +200,7 @@
                             <Column editable="false" title="ROOM NO." type="java.lang.String"/>
                             <Column editable="false" title="PHONE NO." type="java.lang.String"/>
                             <Column editable="false" title="CAMP LOC." type="java.lang.String"/>
+                            <Column editable="false" title="hash" type="java.lang.String"/>
                           </Table>
                         </Property>
                       </Properties>
@@ -300,6 +308,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Clear Database"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton_checkout">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Check Out"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_checkoutActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

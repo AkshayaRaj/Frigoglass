@@ -14,12 +14,7 @@
       <capacity>5</capacity>
       <cost>700</cost>
     </campmanager.Room>
-    <campmanager.Room>
-      <bld__no>J 3</bld__no>
-      <room__no>104 B</room__no>
-      <capacity>3</capacity>
-      <cost>500</cost>
-    </campmanager.Room>
+    <null/>
     <null/>
     <null/>
     <null/>
@@ -68,10 +63,9 @@
     <null/>
     <null/>
   </rooms>
-  <roomCount>3</roomCount>
+  <roomCount>2</roomCount>
   <roomLL>
     <campmanager.Room reference="../../rooms/campmanager.Room"/>
     <campmanager.Room reference="../../rooms/campmanager.Room[2]"/>
-    <campmanager.Room reference="../../rooms/campmanager.Room[3]"/>
   </roomLL>
 </Parameters>

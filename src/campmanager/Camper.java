@@ -46,7 +46,7 @@ public class Camper {
     public  String cec_no;
     public String nationality;
     public  Phone phone_no;
-
+    private int hash;
     Camper() {
        
     }
@@ -64,6 +64,15 @@ public class Camper {
     public void setRoom(Room room) {
         this.room = room;
     }
+
+    public int getHash() {
+        return hash;
+    }
+
+    public void setHash(int hash) {
+        this.hash = hash;
+    }
+    
 
     public void setName(String name) {
         this.name = name;

@@ -335,7 +335,10 @@ public class NewCamper extends javax.swing.JDialog {
         camper.camp_location=camper.location[jComboBox_camp.getSelectedIndex()];
         camper.newEmployee=(boolean)jCheckBox_new_employee.isSelected();
         
-        
+        camper.setRoom(new Room());
+        camper.getRoom().setBld_no(jComboBox_building.getSelectedItem().toString());
+        camper.getRoom().setRoom_no(jComboBox_room.getSelectedItem().toString());
+        camper.setHash(camper.hashCode());
        
         if(jTextField_name.getCaretPosition()==0 || ((jTextField_CEC.getCaretPosition()==0) && !(jCheckBox_new_employee.isSelected()))){
             throw new NullPointerException();
@@ -348,6 +351,7 @@ public class NewCamper extends javax.swing.JDialog {
         
         catch(NullPointerException e){
             final JPanel error=new JPanel();
+            e.printStackTrace();
             JOptionPane.showMessageDialog(error, "Please fill in all the details","Error",JOptionPane.ERROR_MESSAGE);
             added=false;
             
@@ -359,6 +363,7 @@ public class NewCamper extends javax.swing.JDialog {
         }
 
         jLabel_status.setText(camper.name+" Checked In");
+        
         
         if(added){
             final JPanel info=new JPanel();

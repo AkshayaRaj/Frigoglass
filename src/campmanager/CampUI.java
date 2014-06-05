@@ -69,8 +69,9 @@ public class CampUI extends javax.swing.JFrame {
    //settings 
    
    public LinkedList roomsLL;
+   public LinkedList camperLL;
    
-   
+   public boolean changesMade;
    
   
    
@@ -84,16 +85,19 @@ public class CampUI extends javax.swing.JFrame {
         xstream.alias("Person", Camper.class);
         xstream.alias("Container",CamperContainer.class);
         xstream.alias("Parameters",Parameters.class);
+        camperLL=new LinkedList();
         
         //Load the settings: 
         loadSettings();
         getRecentXML();
         updateSettingsUI();
+        updateTable();
         
         jLabel_count.setText(Integer.toString(count));
        jTable_records.setAutoCreateRowSorter(true);
         
-             addWindowListener(new WindowAdapter() {
+       
+        addWindowListener(new WindowAdapter() {
 
   @Override
   public void windowClosing(WindowEvent we)
@@ -103,15 +107,16 @@ public class CampUI extends javax.swing.JFrame {
         "Are you sure you want to exit?", "Frigoglass Camp Manager", 
         JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
         ObjButtons,ObjButtons[1]);
-    if(PromptResult==0)
+    if(PromptResult==0 )
     {
-        int savetResult = JOptionPane.showOptionDialog(null, 
-        "Save records before closing?", "Frigoglass Camp Manager", 
+        if(changesMade==true){
+        int saveResult = JOptionPane.showOptionDialog(null, 
+        "Save database before closing?", "Frigoglass Camp Manager", 
         JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
         ObjButtons,ObjButtons[1]);
-        if(savetResult==0)
+        if(saveResult==0)
             jButton_saveActionPerformed(null);
-        
+        }
       saveSettings(); //save settings
       System.exit(0);          
     }
@@ -146,18 +151,22 @@ public class CampUI extends javax.swing.JFrame {
           container=(CamperContainer)xstream.fromXML(inputXML);
           camper=container.getCamper();
           count=container.getCount();
+         // System.out.println(camper[1]);
+          for(int i=0;i<count;i++)
+              camperLL.add(camper[i]);
           updateTable();
          }
          else{
              container=null;
              camper=new Camper[max_campers];
          }
-         
-       
+         System.out.println("size of camperLL: "+camperLL.size());
+       System.out.println("size of camper array: "+camper.length);
+               
         
     }
     public void loadSettings(){
-        
+        changesMade=false;
     try {
         File file=new File("settings.xml");
         if(!file.exists())
@@ -193,6 +202,7 @@ public class CampUI extends javax.swing.JFrame {
             defaultSettings();
               
          }
+         System.out.println("count: "+count);
     }
     
     public void defaultSettings(){
@@ -209,7 +219,7 @@ public class CampUI extends javax.swing.JFrame {
     
       public void updateSettingsUI(){
           jLabel_rooms_available.setText(Integer.toString(rooms_counter));
-        System.out.println(rooms_counter);
+        System.out.println("rooms counter: "+rooms_counter);
 //         System.out.println(availableRooms[0].getRoom_no());
         DefaultListModel lm=new DefaultListModel();
             for(int t=0;t<rooms_counter;t++)
@@ -252,17 +262,41 @@ public class CampUI extends javax.swing.JFrame {
       }
     public void updateTable(){
         DefaultTableModel model=(DefaultTableModel) jTable_records.getModel();
+         jLabel_count.setText( Integer.toString(count));
         //clear !!
         model.setRowCount(0);
         
         //set column width for serial # 
-        
+        if(count>0){
         for(int i=0;i<count;i++){      
             String serial=Integer.toString(i+1);
-              model.addRow(new Object[]{serial,camper[i].getCec_no(),camper[i].getName(),camper[i].getNationality(),"Building#","Room#",Integer.toString(camper[i].getPhone_no().area)+"-"+Integer.toString(camper[i].getPhone_no().number),camper[i].getCampLoc()});          }
+               model.addRow(new Object[]{serial,camper[i].getCec_no(),camper[i].getName(),camper[i].getNationality(),camper[i].getRoom().getBld_no(),camper[i].getRoom().getRoom_no(),Integer.toString(camper[i].getPhone_no().area)+"-"+Integer.toString(camper[i].getPhone_no().number),camper[i].getCampLoc()
+                             ,camper[i].getHash()});        
+        }
+               
+           
+        
         resizeColumnWidth(jTable_records);
+        }
     }
     
+    public void adjustCamperArray(){
+        camper=(Camper[]) camperLL.toArray(new Camper[0]);
+        count=camper.length;
+        updateTable();
+    }
+    public void printCamperInfo(){
+        
+            System.out.println(count+" campers are present");
+    }
+    
+    public void clearDatabase(){
+        
+             camper=new Camper[max_campers];
+             count=0;
+        JOptionPane.showMessageDialog(null, "Database Cleared","Information",JOptionPane.INFORMATION_MESSAGE);
+        updateTable();
+    }
     public void exportToExcel(){
         JFrame parentFrame = new JFrame();
             File fileToSave=null; ;
@@ -335,6 +369,7 @@ public class CampUI extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton_checkout = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -365,7 +400,7 @@ public class CampUI extends javax.swing.JFrame {
             }
         });
 
-        jButton_newRec.setText("New Record");
+        jButton_newRec.setText("Check In");
         jButton_newRec.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_newRecActionPerformed(evt);
@@ -379,7 +414,7 @@ public class CampUI extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Load");
+        jButton1.setText("Load Database");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -391,14 +426,14 @@ public class CampUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Sr.#", "CEC NO.", "NAME", "NAT", "BLD NO.", "ROOM NO.", "PHONE NO.", "CAMP LOC."
+                "Sr.#", "CEC NO.", "NAME", "NAT", "BLD NO.", "ROOM NO.", "PHONE NO.", "CAMP LOC.", "hash"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -464,6 +499,18 @@ public class CampUI extends javax.swing.JFrame {
         jButton5.setText("Save As..");
 
         jButton6.setText("Clear Database");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton_checkout.setText("Check Out");
+        jButton_checkout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_checkoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -475,9 +522,9 @@ public class CampUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 919, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton_newRec)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3)
@@ -487,7 +534,10 @@ public class CampUI extends javax.swing.JFrame {
                                 .addComponent(jButton5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1))
-                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton_checkout)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton6)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
@@ -511,7 +561,9 @@ public class CampUI extends javax.swing.JFrame {
                             .addComponent(jButton3)
                             .addComponent(jButton5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton6)
+                            .addComponent(jButton_checkout))))
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                 .addContainerGap())
@@ -698,6 +750,7 @@ public class CampUI extends javax.swing.JFrame {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File f = chooser.getSelectedFile();
+        if(f!=null){
         String filename = f.getAbsolutePath();
         try {
             inputXML=readFile(filename,Charset.defaultCharset());
@@ -711,11 +764,12 @@ public class CampUI extends javax.swing.JFrame {
 
             camper[i].display();
         }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saveActionPerformed
-        // TODO add your handling code here:
-
+            // TODO add your handling code here:
+        changesMade=false;
         String xml="";
 
         /*
@@ -749,6 +803,8 @@ public class CampUI extends javax.swing.JFrame {
         catch(Exception e){
             e.printStackTrace();
         }
+        JOptionPane.showMessageDialog(null, "Database Saved","Information",JOptionPane.INFORMATION_MESSAGE);
+        
     }//GEN-LAST:event_jButton_saveActionPerformed
 
     private void jButton_newRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_newRecActionPerformed
@@ -762,9 +818,12 @@ public class CampUI extends javax.swing.JFrame {
        // System.out.println(j);
         if(j.added)
         {
-        camper[count]=j.camper;
+            changesMade=true;
+           // System.out.println("debug "+count);
+       // camper[count]=j.camper;
        // camper[count].display();
-        count++;
+       camperLL.add(j.camper);
+       adjustCamperArray();
         System.out.println(count);
         updateTable();
 
@@ -863,6 +922,55 @@ public class CampUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jList_roomsValueChanged
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        String ObjButtons[] = {"Yes","No"};
+          int PromptResult = JOptionPane.showOptionDialog(null, 
+        "Are you sure you want to Clear Database?", "Warning", 
+        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
+        ObjButtons,ObjButtons[1]);
+        if(PromptResult==0){
+        changesMade=true;
+        clearDatabase();
+        updateSettingsUI();
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton_checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_checkoutActionPerformed
+        // TODO add your handling code here:
+        //Remove an employee
+        
+          
+        
+        if(jTable_records.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null, "Please select an employee from the table","Information",JOptionPane.INFORMATION_MESSAGE);
+            return ;
+        }
+        else{
+            String name=jTable_records.getModel().getValueAt(jTable_records.getSelectedRow(), jTable_records.getColumn("NAME").getModelIndex()).toString();
+        String ObjButtons[] = {"Yes","No"};
+          int PromptResult = JOptionPane.showOptionDialog(null, 
+        "Checkout "+name+" ?", "Warning", 
+        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
+        ObjButtons,ObjButtons[1]);
+          if(PromptResult==0){
+            changesMade=true;
+            ListIterator itr=camperLL.listIterator();
+            int hash=Integer.parseInt(jTable_records.getModel().getValueAt(jTable_records.getSelectedRow(),jTable_records.getColumn("hash").getModelIndex()).toString());
+            System.out.println(hash);
+             Camper camperLocal=new Camper();
+            while(itr.hasNext()){
+                camperLocal=(Camper)itr.next();
+                if(camperLocal.getHash()==hash){
+                    //remove this camper from camperLL
+                    camperLL.remove(camperLocal);
+                }
+            }
+            adjustCamperArray();
+          }
+        }
+    }//GEN-LAST:event_jButton_checkoutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -946,6 +1054,7 @@ try {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton_checkout;
     private javax.swing.JButton jButton_newRec;
     private javax.swing.JButton jButton_save;
     private javax.swing.JButton jButton_save_settings;

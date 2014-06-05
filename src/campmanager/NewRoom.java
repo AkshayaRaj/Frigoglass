@@ -179,7 +179,7 @@ public class NewRoom extends javax.swing.JDialog {
             success=false;
         }
         
-      //  room.setBld_no(jComboBox_bld_no.getSelectedItem().toString());
+        room.setBld_no(jComboBox_bld_no.getSelectedItem().toString());
       
         if(success){
             final JPanel info=new JPanel();
