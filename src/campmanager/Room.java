@@ -6,6 +6,10 @@
 
 package campmanager;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
+
 /**
  *
  * @author Akshaya
@@ -15,6 +19,104 @@ public class Room {
         private String room_no;
         int capacity;
         int cost;
+        int occupancy;
+        private LinkedList<Camper> campers_in_room=new LinkedList<Camper>();
+        boolean full;
+        
+        
+        public boolean checkIn(Camper camper){
+            
+            
+            if(occupancy<capacity){
+                campers_in_room.add(camper);
+                occupancy++;
+                if(occupancy>=capacity)
+                    full=true;
+                return true;
+            }
+            
+            return false;
+        }
+        
+        public void clear(){
+            campers_in_room.clear();
+            occupancy=0;
+            full=false;
+            
+        }
+        public void edit(Camper camper){
+            ListIterator itr=campers_in_room.listIterator();
+            Camper c=new Camper();
+            boolean found=false;
+            while(itr.hasNext()){
+                c=(Camper)itr.next();
+                if(c.getHash()==camper.getHash()){
+                    found=true;
+                    break;
+                }
+            }
+            if(found){
+                
+            }
+            
+        }
+        public int containsNationality(String nation){
+            ListIterator itr=campers_in_room.listIterator();
+            int number=0;
+            Camper camper_here=new Camper();
+            while(itr.hasNext()){
+                camper_here=(Camper)itr.next();
+                if(camper_here.getNationality().equals(nation)){
+                    number++;
+                }
+            }
+            return number;        
+        }
+        
+        
+        
+        
+        public boolean checkOut(Camper camper){
+            if(occupancy>0){
+                Camper camper_local=new Camper();
+            ListIterator itr=campers_in_room.listIterator();
+            while(itr.hasNext()){
+                camper_local=(Camper)itr.next();
+                if(camper_local.getName().equals(camper.getName()) && camper_local.getCec_no().equals(camper.getCec_no())){
+                    campers_in_room.remove(itr.nextIndex()-1);
+                }
+            }
+              //  System.out.println(campers_in_room.remove(camper));
+                System.out.println(campers_in_room);
+                occupancy--;
+                if(occupancy<capacity)
+                    full=false;
+                return true;
+            }
+            return false;
+        }
+
+    public boolean isFull() {
+        return full;
+    }
+
+    public void setFull(boolean full) {
+        this.full = full;
+    }
+  
+        public LinkedList<Camper> getCampers_in_room(){
+            return campers_in_room;
+        }
+        
+        
+    public int getOccupancy() {
+        return occupancy;
+    }
+
+    public void setOccupancy(int occupancy) {
+        this.occupancy = occupancy;
+    }
+        
         
 
     public String getBld_no() {
@@ -39,6 +141,10 @@ public class Room {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+        if(this.occupancy>=this.capacity)
+            this.full=true;
+        else 
+            this.full=false;
     }
 
     public int getCost() {
@@ -53,7 +159,8 @@ public class Room {
         Room(String bld_no,String room_no)  {
             this.bld_no=bld_no;
             this.room_no=room_no;
-            
+            this.occupancy=0;
+            this.full=false;
             
 }
         Room(){

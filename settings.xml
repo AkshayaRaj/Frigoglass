@@ -2,24 +2,9 @@
   <maxRooms>50</maxRooms>
   <max__records>500</max__records>
   <rooms>
-    <campmanager.Room>
-      <bld__no>J 3</bld__no>
-      <room__no>102 A</room__no>
-      <capacity>3</capacity>
-      <cost>500</cost>
-    </campmanager.Room>
-    <campmanager.Room>
-      <bld__no>J 10</bld__no>
-      <room__no>103 A</room__no>
-      <capacity>5</capacity>
-      <cost>700</cost>
-    </campmanager.Room>
-    <campmanager.Room>
-      <bld__no>J 3</bld__no>
-      <room__no>104 B</room__no>
-      <capacity>3</capacity>
-      <cost>500</cost>
-    </campmanager.Room>
+    <null/>
+    <null/>
+    <null/>
     <null/>
     <null/>
     <null/>
@@ -68,10 +53,72 @@
     <null/>
     <null/>
   </rooms>
-  <roomCount>3</roomCount>
+  <roomCount>2</roomCount>
   <roomLL>
-    <campmanager.Room reference="../../rooms/campmanager.Room"/>
-    <campmanager.Room reference="../../rooms/campmanager.Room[2]"/>
-    <campmanager.Room reference="../../rooms/campmanager.Room[3]"/>
+    <campmanager.Room>
+      <bld__no>J 3</bld__no>
+      <room__no>101 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>101 B</bld__no>
+      <room__no>101 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>2</occupancy>
+      <campers__in__room>
+        <Person>
+          <name>Akshaya</name>
+          <cec__no>New Joinee</cec__no>
+          <nationality>India</nationality>
+          <phone__no>
+            <area>12</area>
+            <number>123123</number>
+          </phone__no>
+          <hash>17461244</hash>
+          <bedding>false</bedding>
+          <grade>S1</grade>
+          <newEmployee>true</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 3</bld__no>
+            <room__no>101 B</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+          </room>
+        </Person>
+        <Person>
+          <name>Raj</name>
+          <cec__no>New Joinee</cec__no>
+          <nationality>Albania</nationality>
+          <phone__no>
+            <area>123</area>
+            <number>123123</number>
+          </phone__no>
+          <hash>27555217</hash>
+          <bedding>false</bedding>
+          <grade>S1</grade>
+          <newEmployee>true</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 3</bld__no>
+            <room__no>101 B</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+          </room>
+        </Person>
+      </campers__in__room>
+      <full>false</full>
+    </campmanager.Room>
   </roomLL>
 </Parameters>

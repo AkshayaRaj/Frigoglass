@@ -1,41 +1,51 @@
 <Container>
-  <camper>
+  <count>2</count>
+  <camperLL>
     <Person>
       <name>Akshaya</name>
       <cec__no>New Joinee</cec__no>
-      <nationality>IND</nationality>
+      <nationality>India</nationality>
       <phone__no>
-        <area>123</area>
-        <number>12341234</number>
+        <area>12</area>
+        <number>123123</number>
       </phone__no>
-      <hash>21220324</hash>
+      <hash>17461244</hash>
+      <bedding>false</bedding>
+      <grade>S1</grade>
       <newEmployee>true</newEmployee>
-      <camp__location>JuniorNE</camp__location>
+      <camp__location>Junior-NE</camp__location>
       <room>
         <bld__no>J 3</bld__no>
-        <room__no>102 A</room__no>
+        <room__no>101 B</room__no>
         <capacity>0</capacity>
         <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
       </room>
     </Person>
     <Person>
-      <name>Vasu</name>
-      <cec__no>123123</cec__no>
-      <nationality>IND</nationality>
+      <name>Raj</name>
+      <cec__no>New Joinee</cec__no>
+      <nationality>Albania</nationality>
       <phone__no>
-        <area>234</area>
-        <number>12312312</number>
+        <area>123</area>
+        <number>123123</number>
       </phone__no>
-      <hash>10323336</hash>
-      <newEmployee>false</newEmployee>
-      <camp__location>JuniorNE</camp__location>
+      <hash>27555217</hash>
+      <bedding>false</bedding>
+      <grade>S1</grade>
+      <newEmployee>true</newEmployee>
+      <camp__location>Junior-NE</camp__location>
       <room>
-        <bld__no>J 10</bld__no>
-        <room__no>103 A</room__no>
+        <bld__no>J 3</bld__no>
+        <room__no>101 B</room__no>
         <capacity>0</capacity>
         <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
       </room>
     </Person>
-  </camper>
-  <count>2</count>
+  </camperLL>
 </Container>

@@ -6,6 +6,8 @@
 
 package campmanager;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author Akshaya
@@ -13,6 +15,7 @@ package campmanager;
 public class CamperContainer {
     Camper camper[];
     private int count;
+    LinkedList camperLL;
     CamperContainer(Camper camper[]){
         this.camper=new Camper[camper.length];
         this.camper=camper;
@@ -20,6 +23,15 @@ public class CamperContainer {
     CamperContainer(){
         
     }
+
+    public LinkedList getCamperLL() {
+        return camperLL;
+    }
+
+    public void setCamperLL(LinkedList camperLL) {
+        this.camperLL = camperLL;
+    }
+    
    Camper[] getCamper(){
         return camper;
     }

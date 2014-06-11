@@ -1,0 +1,95 @@
+<Parameters>
+  <maxRooms>50</maxRooms>
+  <max__records>500</max__records>
+  <rooms>
+    <campmanager.Room>
+      <bld__no>J 3</bld__no>
+      <room__no>101 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 3</bld__no>
+      <room__no>101 B</room__no>
+      <capacity>2</capacity>
+      <cost>1000</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 3</bld__no>
+      <room__no>102 A</room__no>
+      <capacity>4</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 10</bld__no>
+      <room__no>103 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+    </campmanager.Room>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+  </rooms>
+  <roomCount>4</roomCount>
+  <roomLL>
+    <campmanager.Room reference="../../rooms/campmanager.Room"/>
+    <campmanager.Room reference="../../rooms/campmanager.Room[2]"/>
+    <campmanager.Room reference="../../rooms/campmanager.Room[3]"/>
+    <campmanager.Room reference="../../rooms/campmanager.Room[4]"/>
+  </roomLL>
+</Parameters>

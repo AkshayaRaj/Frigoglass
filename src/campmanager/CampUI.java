@@ -23,18 +23,21 @@ import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultRowSorter;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -62,6 +65,8 @@ public class CampUI extends javax.swing.JFrame {
    int max_campers;
    int count;
    
+    
+   
    private  String inputXML;
    private String paramXML;
    private Room[] availableRooms;
@@ -72,14 +77,16 @@ public class CampUI extends javax.swing.JFrame {
    public LinkedList camperLL;
    
    public boolean changesMade;
-   
+    
+   private TableRowSorter sorter;
   
    
    
     public CampUI() {
+        
         initComponents();
-        max_campers=100;
-        count=0;
+        
+       
        // camper=new Camper[max_campers];
         xstream =new XStream(new DomDriver());
         xstream.alias("Person", Camper.class);
@@ -92,11 +99,23 @@ public class CampUI extends javax.swing.JFrame {
         getRecentXML();
         updateSettingsUI();
         updateTable();
+         max_campers=(int)jSpinner_max_records.getValue();
+        count=camperLL.size();
+       
         
         jLabel_count.setText(Integer.toString(count));
        jTable_records.setAutoCreateRowSorter(true);
+       
+       
+        jTable_records.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTable_camper.setModel(jTable_records.getModel());
         
        
+        sorter=new TableRowSorter(jTable_camper.getModel());
+        jTable_camper.setRowSorter(sorter);
+        jTable_camper.setAutoCreateRowSorter(true);
+        jScrollPane6.setViewportView(jTable_camper);
+        
         addWindowListener(new WindowAdapter() {
 
   @Override
@@ -125,7 +144,17 @@ public class CampUI extends javax.swing.JFrame {
    
    
     }
+
     
+
+    public int confirmDialog(String string){
+        String ObjButtons[] = {"Yes","No"};
+        int PromptResult = JOptionPane.showOptionDialog(null, 
+        string, "Frigoglass Camp Manager", 
+        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
+        ObjButtons,ObjButtons[1]);
+        return PromptResult;
+    }
     public void getRecentXML(){
     
          try{
@@ -151,17 +180,17 @@ public class CampUI extends javax.swing.JFrame {
           container=(CamperContainer)xstream.fromXML(inputXML);
           camper=container.getCamper();
           count=container.getCount();
+          camperLL=container.getCamperLL();
          // System.out.println(camper[1]);
-          for(int i=0;i<count;i++)
-              camperLL.add(camper[i]);
+        
           updateTable();
          }
          else{
              container=null;
-             camper=new Camper[max_campers];
+             
          }
          System.out.println("size of camperLL: "+camperLL.size());
-       System.out.println("size of camper array: "+camper.length);
+       //System.out.println("size of camper array: "+camper.length);
                
         
     }
@@ -192,10 +221,8 @@ public class CampUI extends javax.swing.JFrame {
              rooms_counter=param.getRoomCount();
              availableRooms=new Room[param.getMaxRooms()];
             availableRooms=param.getRooms();
-            roomsLL=new LinkedList();
-            for(int i=0;i<param.getRoomCount();i++)
-                roomsLL.add(availableRooms[i]);
-                
+            roomsLL=param.getRoomLL();
+            
              System.out.println("Size of roomsLL: "+roomsLL.size());
          }
          else{
@@ -211,20 +238,28 @@ public class CampUI extends javax.swing.JFrame {
              availableRooms=new Room[50];
              param.setMaxRooms(50);
              param.setMax_records(500);
+             roomsLL=new LinkedList();  
+             param.setRoomLL(roomsLL);
             jButton_save_settingsActionPerformed(null);
             
-            roomsLL=new LinkedList();                    
+                              
             JOptionPane.showMessageDialog(null, "Default settings loaded","Information",JOptionPane.INFORMATION_MESSAGE);
     }
     
       public void updateSettingsUI(){
+          count=camperLL.size();
           jLabel_rooms_available.setText(Integer.toString(rooms_counter));
         System.out.println("rooms counter: "+rooms_counter);
 //         System.out.println(availableRooms[0].getRoom_no());
         DefaultListModel lm=new DefaultListModel();
-            for(int t=0;t<rooms_counter;t++)
-                 lm.addElement(availableRooms[t].getRoom_no());
+        ListIterator itr=roomsLL.listIterator();
+        Room room_here=new Room();
+        while(itr.hasNext()){
+           room_here=(Room)itr.next();
+                 lm.addElement(room_here.getRoom_no());
+        }
         this.jList_rooms.setModel(lm);
+        jList_rooms_query.setModel(lm);
         jSpinner_max_records.setValue(param.getMax_records());
         jSpinner_max_rooms.setValue(param.getMaxRooms());
     }
@@ -232,7 +267,7 @@ public class CampUI extends javax.swing.JFrame {
       public void saveSettings(){
            Parameters param_ = new Parameters();
         param_.setRooms(availableRooms);
-        param_.setRoomCount(rooms_counter);
+        param_.setRoomCount(roomsLL.size());
         param_.setRoomLL(roomsLL);
         if(rooms_counter<Integer.parseInt(jSpinner_max_rooms.getValue().toString()))
                 param_.setMaxRooms(Integer.parseInt(jSpinner_max_rooms.getValue().toString()));
@@ -261,28 +296,52 @@ public class CampUI extends javax.swing.JFrame {
         }
       }
     public void updateTable(){
+       count=camperLL.size();
+       jLabel_count.setText(Integer.toString(count));
         DefaultTableModel model=(DefaultTableModel) jTable_records.getModel();
          jLabel_count.setText( Integer.toString(count));
         //clear !!
         model.setRowCount(0);
         
         //set column width for serial # 
-        if(count>0){
-        for(int i=0;i<count;i++){      
-            String serial=Integer.toString(i+1);
-               model.addRow(new Object[]{serial,camper[i].getCec_no(),camper[i].getName(),camper[i].getNationality(),camper[i].getRoom().getBld_no(),camper[i].getRoom().getRoom_no(),Integer.toString(camper[i].getPhone_no().area)+"-"+Integer.toString(camper[i].getPhone_no().number),camper[i].getCampLoc()
-                             ,camper[i].getHash()});        
-        }
-               
+        ListIterator itr=camperLL.listIterator();
+        Camper c;
+        while(itr.hasNext()){
+        c=(Camper)itr.next();
+              
+            
+            String bedding="";
+            if(c.isBedding())
+                bedding="Yes";
+            else
+                bedding="No";
+                  
+               model.addRow(new Object[]{"#",c.getCec_no(),c.getName(),c.getGrade(),c.getNationality(),c.getRoom().getBld_no(),c.getRoom().getRoom_no(),Integer.toString(c.getPhone_no().area)+"-"+Integer.toString(c.getPhone_no().number),c.getCampLoc()
+                             ,bedding,c.getHash()});        
+        
+        }  
            
         
         resizeColumnWidth(jTable_records);
-        }
+        
     }
     
     public void adjustCamperArray(){
-        camper=(Camper[]) camperLL.toArray(new Camper[0]);
-        count=camper.length;
+        camperLL.clear();
+        ListIterator itr=roomsLL.listIterator();
+        Room room=new Room();
+        while(itr.hasNext()){
+            room=(Room)itr.next();
+            LinkedList campersInRoom=room.getCampers_in_room();
+            ListIterator it=campersInRoom.listIterator();
+            while(it.hasNext()){
+                Camper c=(Camper)it.next();
+            camperLL.add(c);
+            }
+            
+        }
+        
+        
         updateTable();
     }
     public void printCamperInfo(){
@@ -290,10 +349,43 @@ public class CampUI extends javax.swing.JFrame {
             System.out.println(count+" campers are present");
     }
     
+    public void checkOut(String room_no,Camper camper){
+        ListIterator itr=roomsLL.listIterator();
+        Room room=new Room();
+        while(itr.hasNext()){
+            room=(Room)itr.next();
+            if(room.getRoom_no().equals(room_no)){
+                room.checkOut(camper);
+                roomsLL.set(itr.nextIndex()-1,room );
+            }
+        }
+    }
+    
+    public void checkIn(String room_no,Camper camper){
+        ListIterator itr=roomsLL.listIterator();
+        Room room=new Room();
+        while(itr.hasNext()){
+            room=(Room)itr.next();
+            if(room.getRoom_no().equals(room_no)){
+                room.checkIn(camper);
+                roomsLL.set(itr.nextIndex()-1,room );
+            }
+        }
+    }
+    
     public void clearDatabase(){
         
-             camper=new Camper[max_campers];
-             count=0;
+            camperLL.clear();
+             
+             ListIterator itr=roomsLL.listIterator();
+             Room room=new Room();
+             while(itr.hasNext()){
+                 room=(Room)itr.next();
+                 room.clear();
+                 System.err.println("index: "+itr.nextIndex());
+                 roomsLL.set(itr.nextIndex()-1, room);
+             }
+                 
         JOptionPane.showMessageDialog(null, "Database Cleared","Information",JOptionPane.INFORMATION_MESSAGE);
         updateTable();
     }
@@ -327,7 +419,7 @@ public class CampUI extends javax.swing.JFrame {
         for (int j=0;j<dtm.getColumnCount();j++) {
              
             cell = row.createCell(j);
-            cell.setCellValue((String) dtm.getValueAt(i, j));
+            cell.setCellValue( dtm.getValueAt(i, j).toString());
         }
     }
      
@@ -370,7 +462,30 @@ public class CampUI extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton_checkout = new javax.swing.JButton();
+        jButton_edit = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
         jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel7_queries = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList_rooms_query = new javax.swing.JList();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jList_occupants_query = new javax.swing.JList();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel_capacity_queries = new javax.swing.JLabel();
+        jPanel7_queries2 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable_camper = new javax.swing.JTable();
+        jComboBox_query_choice = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField_filter = new javax.swing.JTextField();
+        jPanel7_queries1 = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTable_room = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -380,6 +495,9 @@ public class CampUI extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel_capacity_status = new javax.swing.JLabel();
         jLabel_cost_status = new javax.swing.JLabel();
+        jLabel_occupancy = new javax.swing.JLabel();
+        jLabel_occupancy_status = new javax.swing.JLabel();
+        jButton_edit_room = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jSpinner_max_records = new javax.swing.JSpinner();
         jButton_save_settings = new javax.swing.JButton();
@@ -407,7 +525,7 @@ public class CampUI extends javax.swing.JFrame {
             }
         });
 
-        jButton_save.setText("Save");
+        jButton_save.setText("Save Database");
         jButton_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_saveActionPerformed(evt);
@@ -426,14 +544,14 @@ public class CampUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Sr.#", "CEC NO.", "NAME", "NAT", "BLD NO.", "ROOM NO.", "PHONE NO.", "CAMP LOC.", "hash"
+                "Sr.", "CEC", "NAME", "GRADE", "NATIONALITY", "BUILDING", "ROOM", "PHONE ", "CAMP", "BEDDING", "hash"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -489,7 +607,7 @@ public class CampUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton3.setText("Save as Excel");
+        jButton3.setText("Export to Excel");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -512,6 +630,10 @@ public class CampUI extends javax.swing.JFrame {
             }
         });
 
+        jButton_edit.setText("Edit Record");
+
+        jScrollPane7.setViewportView(jTree1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -519,58 +641,256 @@ public class CampUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 919, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton_newRec)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton_save)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton_checkout)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton6)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton5))
+                            .addComponent(jButton_edit, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jButton_save)
+                            .addComponent(jButton6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton_save)
-                            .addComponent(jButton1)
-                            .addComponent(jButton_newRec)
-                            .addComponent(jButton3)
-                            .addComponent(jButton5))
+                        .addComponent(jButton_save)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton6)
-                            .addComponent(jButton_checkout))))
-                .addGap(21, 21, 21)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
-                .addContainerGap())
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButton_newRec)
+                                .addComponent(jButton3)
+                                .addComponent(jButton5)
+                                .addComponent(jButton_checkout))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton_edit))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
         );
 
         jTabbedPane1.addTab("Status", jPanel1);
-        jTabbedPane1.addTab("Graphs", jTabbedPane2);
+
+        jTabbedPane2.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        jTabbedPane2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTabbedPane2FocusGained(evt);
+            }
+        });
+
+        jPanel7_queries.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Room Occupants", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+
+        jList_rooms_query.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList_rooms_queryValueChanged(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jList_rooms_query);
+
+        jScrollPane5.setViewportView(jList_occupants_query);
+
+        jLabel4.setText("Room");
+
+        jLabel5.setText("Occupants");
+
+        jLabel6.setText("Capacity");
+
+        jLabel_capacity_queries.setText("-");
+
+        javax.swing.GroupLayout jPanel7_queriesLayout = new javax.swing.GroupLayout(jPanel7_queries);
+        jPanel7_queries.setLayout(jPanel7_queriesLayout);
+        jPanel7_queriesLayout.setHorizontalGroup(
+            jPanel7_queriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7_queriesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7_queriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7_queriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel7_queriesLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_capacity_queries))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        jPanel7_queriesLayout.setVerticalGroup(
+            jPanel7_queriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7_queriesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7_queriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel7_queriesLayout.createSequentialGroup()
+                        .addGroup(jPanel7_queriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel7_queriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel_capacity_queries)))
+        );
+
+        jPanel7_queries2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Camper Queries", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+
+        jTable_camper.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane6.setViewportView(jTable_camper);
+
+        jComboBox_query_choice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NAME", "CEC", "GRADE", "BUILDING", "ROOM", "NATIONALITY", "BEDDING" }));
+
+        jLabel7.setText("Filter by :");
+
+        jTextField_filter.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTextField_filterCaretUpdate(evt);
+            }
+        });
+        jTextField_filter.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jTextField_filterCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7_queries2Layout = new javax.swing.GroupLayout(jPanel7_queries2);
+        jPanel7_queries2.setLayout(jPanel7_queries2Layout);
+        jPanel7_queries2Layout.setHorizontalGroup(
+            jPanel7_queries2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7_queries2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7_queries2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7_queries2Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBox_query_choice, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField_filter))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        jPanel7_queries2Layout.setVerticalGroup(
+            jPanel7_queries2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7_queries2Layout.createSequentialGroup()
+                .addGroup(jPanel7_queries2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jComboBox_query_choice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
+        );
+
+        jPanel7_queries1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Room Queries", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+
+        jTable_room.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane8.setViewportView(jTable_room);
+
+        javax.swing.GroupLayout jPanel7_queries1Layout = new javax.swing.GroupLayout(jPanel7_queries1);
+        jPanel7_queries1.setLayout(jPanel7_queries1Layout);
+        jPanel7_queries1Layout.setHorizontalGroup(
+            jPanel7_queries1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7_queries1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel7_queries1Layout.setVerticalGroup(
+            jPanel7_queries1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7_queries1Layout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7_queries2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jPanel7_queries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel7_queries1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7_queries, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel7_queries1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7_queries2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane2.addTab("Queries", jPanel5);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 865, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 483, Short.MAX_VALUE)
+        );
+
+        jTabbedPane2.addTab("Analytics", jPanel6);
+
+        jTabbedPane1.addTab("Statistics", jTabbedPane2);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Rooms", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
@@ -596,6 +916,17 @@ public class CampUI extends javax.swing.JFrame {
 
         jLabel_cost_status.setText("-");
 
+        jLabel_occupancy.setText("Occupancy ");
+
+        jLabel_occupancy_status.setText("-");
+
+        jButton_edit_room.setText("Edit Room");
+        jButton_edit_room.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_edit_roomActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -613,7 +944,12 @@ public class CampUI extends javax.swing.JFrame {
                         .addComponent(jLabel_beds)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel_capacity_status))
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel_occupancy)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel_occupancy_status))
+                    .addComponent(jButton_edit_room))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -629,7 +965,13 @@ public class CampUI extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_bed_cost)
                             .addComponent(jLabel_cost_status))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_occupancy)
+                            .addComponent(jLabel_occupancy_status))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_edit_room)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
                 .addContainerGap())
@@ -661,17 +1003,11 @@ public class CampUI extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_save_settings)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
-                .addGap(17, 17, 17))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(391, 391, 391)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -679,30 +1015,32 @@ public class CampUI extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel_max_rooms)
                         .addGap(18, 18, 18)
-                        .addComponent(jSpinner_max_rooms)))
-                .addContainerGap(158, Short.MAX_VALUE))
+                        .addComponent(jSpinner_max_rooms, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton_save_settings)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)))
+                .addContainerGap(513, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jSpinner_max_records, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_max_rooms)
-                            .addComponent(jSpinner_max_rooms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(46, 46, 46)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_save_settings)
-                    .addComponent(jButton4))
-                .addGap(19, 19, 19))
+                            .addComponent(jSpinner_max_rooms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton_save_settings)
+                            .addComponent(jButton4))))
+                .addGap(239, 239, 239))
         );
 
         jTabbedPane1.addTab("Settings", jPanel2);
@@ -728,7 +1066,7 @@ public class CampUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTabbedPane1)
                 .addContainerGap())
@@ -746,29 +1084,213 @@ public class CampUI extends javax.swing.JFrame {
         jButton_newRecActionPerformed(evt);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTabbedPane1FocusGained
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        if(confirmDialog("Are you sure you want to reset settings?")==0)
+        defaultSettings();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton_save_settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_save_settingsActionPerformed
+        // TODO add your handling code here:
+        saveSettings();
+
+        updateSettingsUI();
+
+        JOptionPane.showMessageDialog(null, "Settings saved","Information",JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton_save_settingsActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        NewRoom  i=new NewRoom(this,true);
+        i.setLocationRelativeTo(this);
+        i.setVisible(true);
+
+        if(i.success && rooms_counter<=param.maxRooms){
+            System.out.println(rooms_counter);
+            
+            roomsLL.add(i.getRoom());
+            DefaultListModel lm=new DefaultListModel();
+            
+            ListIterator itr=roomsLL.listIterator();
+            Room room_here=new Room();
+            while(itr.hasNext()){
+                room_here=(Room)itr.next();
+            lm.addElement(room_here.getRoom_no());
+            }
+            this.jList_rooms.setModel(lm);
+            
+
+           
+        }
+
+        /*
+        if(success){
+            availableRooms[rooms_counter]=j.room;
+            rooms_counter++;
+        }
+        */
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jList_roomsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList_roomsValueChanged
+        // TODO add your handling code here:
+        // System.out.println("changed");
+        if (!evt.getValueIsAdjusting()){
+            String room_no;
+            try{
+                room_no=jList_rooms.getSelectedValue().toString();
+                System.out.println(room_no);
+            }
+            catch(NullPointerException e){
+                try{
+                    room_no=jList_rooms.getModel().getElementAt(0).toString();
+                }
+                catch(ArrayIndexOutOfBoundsException e1){
+                    return;
+                }
+            }
+            // System.out.println("Got:"+room_no+"!");
+            ListIterator itr=roomsLL.listIterator();
+            while(itr.hasNext()){
+                Room room=(Room)itr.next();
+                System.out.println("Real:"+room.getRoom_no()+"!");
+                if(room.getRoom_no().equals(room_no)){
+                    // System.out.println("Here!");
+                    jLabel_capacity_status.setText(Integer.toString(room.getCapacity()));
+                    jLabel_cost_status.setText(Integer.toString(room.getCost()));
+                    jLabel_occupancy_status.setText(Integer.toString(room.getOccupancy()));
+                }
+            }
+        }
+    }//GEN-LAST:event_jList_roomsValueChanged
+
+    private void jTabbedPane2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane2FocusGained
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTabbedPane2FocusGained
+
+    private void jList_rooms_queryValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList_rooms_queryValueChanged
+        // TODO add your handling code here:
+        adjustCamperArray();
+        if (!evt.getValueIsAdjusting()){
+            String room_no;
+            try{
+                room_no=jList_rooms_query.getSelectedValue().toString();
+                //System.out.println(room_no);
+            }
+            catch(NullPointerException e){
+                try{
+                    room_no=jList_rooms_query.getModel().getElementAt(0).toString();
+                    System.err.println("NullEx");
+                }
+                catch(ArrayIndexOutOfBoundsException e1){
+                    System.err.println("OUTofBounds");
+                    return;
+                }
+            }
+             //System.out.println("Got:"+room_no+"!");
+            ListIterator itr=roomsLL.listIterator();
+            LinkedList campersInRoom;
+            while(itr.hasNext()){
+                Room room=(Room)itr.next();
+                //System.out.println("Real:"+room.getRoom_no()+"!");
+                if(room.getRoom_no().equals(room_no)){
+                    campersInRoom=room.getCampers_in_room();
+                    jList_occupants_query.removeAll();
+                    jLabel_capacity_queries.setText(Integer.toString(room.getCapacity()));
+                    ListIterator itr1=campersInRoom.listIterator();
+                    DefaultListModel lm=new DefaultListModel();
+                    Camper camper=new Camper();
+                    while(itr1.hasNext()){
+                        camper=(Camper)itr1.next();
+                        lm.addElement(camper.getName().toString());
+                       // jList_occupants_query.getModel().;
+                    }
+                    
+                    jList_occupants_query.setModel(lm);
+                }
+            }
+        }
+    }//GEN-LAST:event_jList_rooms_queryValueChanged
+
+    private void jButton_checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_checkoutActionPerformed
+        // TODO add your handling code here:
+        //Remove an employee
+
+        if(jTable_records.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null, "Please select an employee from the table","Information",JOptionPane.INFORMATION_MESSAGE);
+            return ;
+        }
+        else{
+            String name=jTable_records.getModel().getValueAt(jTable_records.getSelectedRow(), jTable_records.getColumn("NAME").getModelIndex()).toString();
+            String ObjButtons[] = {"Yes","No"};
+            int PromptResult = JOptionPane.showOptionDialog(null,
+                "Checkout "+name+" ?", "Warning",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                ObjButtons,ObjButtons[1]);
+            if(PromptResult==0){
+                changesMade=true;
+                ListIterator itr=camperLL.listIterator();
+                int hash=Integer.parseInt(jTable_records.getModel().getValueAt(jTable_records.getSelectedRow(),jTable_records.getColumn("hash").getModelIndex()).toString());
+                System.out.println(hash);
+                Camper camperLocal=new Camper();
+                while(itr.hasNext()){
+                    camperLocal=(Camper)itr.next();
+                    if(camperLocal.getHash()==hash){
+                        //remove this camper from camperLL
+                        checkOut(camperLocal.getRoom().getRoom_no(), camperLocal);
+                        camperLL.remove(camperLocal);
+                    }
+                }
+                adjustCamperArray();
+            }
+        }
+    }//GEN-LAST:event_jButton_checkoutActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        int PromptResult=confirmDialog("Are you sure you want to clear the current database ?");
+        if(PromptResult==0){
+            changesMade=true;
+            clearDatabase();
+            updateSettingsUI();
+        }
+        adjustCamperArray();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+
+        exportToExcel();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File f = chooser.getSelectedFile();
         if(f!=null){
-        String filename = f.getAbsolutePath();
-        try {
-            inputXML=readFile(filename,Charset.defaultCharset());
-            System.out.println(inputXML);
-        } catch (IOException ex) {
-            Logger.getLogger(CampUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            String filename = f.getAbsolutePath();
+            try {
+                inputXML=readFile(filename,Charset.defaultCharset());
+                System.out.println(inputXML);
+            } catch (IOException ex) {
+                Logger.getLogger(CampUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        camper=((CamperContainer)xstream.fromXML(inputXML)).getCamper();
-        for(int i=0;i<2;i++){ //assume that there are 3 records .. use the count variable here
-
-            camper[i].display();
-        }
+            camperLL=((CamperContainer)xstream.fromXML(inputXML)).getCamperLL();
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saveActionPerformed
-            // TODO add your handling code here:
+        // TODO add your handling code here:
+
+        if(confirmDialog("Save current database?")!=0)
+        return ;
+
         changesMade=false;
         String xml="";
 
@@ -780,8 +1302,9 @@ public class CampUI extends javax.swing.JFrame {
         }
         */
 
-        CamperContainer cont=new CamperContainer(camper);
-        cont.setCount(count);
+        CamperContainer cont=new CamperContainer();
+        cont.setCount(camperLL.size());
+        cont.setCamperLL(camperLL);
         xml=xstream.toXML(cont);
 
         //   System.out.println(xml);
@@ -804,218 +1327,103 @@ public class CampUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
         JOptionPane.showMessageDialog(null, "Database Saved","Information",JOptionPane.INFORMATION_MESSAGE);
-        
     }//GEN-LAST:event_jButton_saveActionPerformed
 
     private void jButton_newRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_newRecActionPerformed
         // TODO add your handling code here:
+        GetStats stats=new GetStats(camperLL,roomsLL);
+
         j=new NewCamper(this,true);
         j.setLocationRelativeTo(this);
         System.out.println(roomsLL);
+        j.setAvailable_rooms(stats.getAvailableRooms());
         j.setRoomsLL(roomsLL);
+        j.setCampersLL(camperLL);
         j.setVisible(true);
-        
-       // System.out.println(j);
+
+        // System.out.println(j);
         if(j.added)
         {
             changesMade=true;
-           // System.out.println("debug "+count);
-       // camper[count]=j.camper;
-       // camper[count].display();
-       camperLL.add(j.camper);
-       adjustCamperArray();
-        System.out.println(count);
-        updateTable();
+            ListIterator itr=roomsLL.listIterator();
+            Room room=new Room();
+            while(itr.hasNext()){
+                room=(Room)itr.next();
+                if(j.camper.getRoom().getRoom_no().equals(room.getRoom_no())){
+                    if(room.checkIn(j.camper)){
+                        roomsLL.set(itr.nextIndex()-1, room);
+                        camperLL.add(j.camper);
+                        System.out.println("checked into: "+room.getRoom_no());
+                        break;
+                    }
+                }
+            }
 
-        jLabel_count.setText( Integer.toString(count));
+            adjustCamperArray();
+            updateTable();
+            jLabel_count.setText( Integer.toString(count));
         }
     }//GEN-LAST:event_jButton_newRecActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jTextField_filterCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField_filterCaretPositionChanged
+       
+    }//GEN-LAST:event_jTextField_filterCaretPositionChanged
+
+    private void jTextField_filterCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextField_filterCaretUpdate
+
+        String target = jTextField_filter.getText();  
+  TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jTable_camper.getModel());
+  jTable_camper.setRowSorter(sorter);
+  sorter.setRowFilter(RowFilter.regexFilter(".*"+target+".*", jTable_camper.getColumn(jComboBox_query_choice.getSelectedItem().toString()).getModelIndex()));
+    }//GEN-LAST:event_jTextField_filterCaretUpdate
+
+    private void jButton_edit_roomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_edit_roomActionPerformed
         // TODO add your handling code here:
-        NewRoom  i=new NewRoom(this,true);
+        
+        String room_no=jList_rooms.getSelectedValue().toString();
+        ListIterator itr=roomsLL.listIterator();
+        Room r=new Room();
+        int index=0;
+        while(itr.hasNext()){
+            index=itr.nextIndex();
+            r=(Room)itr.next();
+            if(r.getRoom_no().equals(room_no))
+                break;
+        }
+         NewRoom  i=new NewRoom(this,true,r);
         i.setLocationRelativeTo(this);
         i.setVisible(true);
-       
-      
-        
-        
         
         if(i.success && rooms_counter<=param.maxRooms){
-            System.out.println(rooms_counter);
-            availableRooms[rooms_counter]=i.getRoom();  
-            
-            DefaultListModel lm=new DefaultListModel();
-           
-            for(int t=0;t<=rooms_counter;t++)
-                 lm.addElement(availableRooms[t].getRoom_no());
-         this.jList_rooms.setModel(lm);
-            rooms_counter++;
-            
-            roomsLL.add(i.room);
+            r.setBld_no(i.getRoom().getRoom_no());
+            r.setCapacity(i.getRoom().getCapacity());
+            r.setCost(i.getRoom().getCost());
+            r.setRoom_no(i.getRoom().getRoom_no());
+            roomsLL.set(index, r);
         }
         
-        
- /*
-       if(success){
-        availableRooms[rooms_counter]=j.room;
-        rooms_counter++;
-       }
-   */        
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton_edit_roomActionPerformed
 
     
   
     
-    private void jButton_save_settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_save_settingsActionPerformed
-        // TODO add your handling code here:
-        saveSettings();
-       
-        updateSettingsUI();
-        
-        JOptionPane.showMessageDialog(null, "Settings saved","Information",JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_jButton_save_settingsActionPerformed
-
     
     
     
     
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        defaultSettings();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-      
-        exportToExcel();
-
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTabbedPane1FocusGained
-
-    private void jList_roomsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList_roomsValueChanged
-        // TODO add your handling code here:
-       // System.out.println("changed");
-        if (!evt.getValueIsAdjusting()){
-            String room_no;
-            try{
-                 room_no=jList_rooms.getSelectedValue().toString();
-            }
-            catch(NullPointerException e){
-                 room_no=jList_rooms.getModel().getElementAt(0).toString();
-            }
-           // System.out.println("Got:"+room_no+"!");
-            ListIterator itr=roomsLL.listIterator();
-            while(itr.hasNext()){
-                Room room=(Room)itr.next();
-               // System.out.println("Real:"+room.getRoom_no()+"!");
-                if(room.getRoom_no().equals(room_no)){
-                   // System.out.println("Here!");
-                    jLabel_capacity_status.setText(Integer.toString(room.getCapacity()));
-                    jLabel_cost_status.setText(Integer.toString(room.getCost()));
-                }
-            }
-        }
-    }//GEN-LAST:event_jList_roomsValueChanged
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        String ObjButtons[] = {"Yes","No"};
-          int PromptResult = JOptionPane.showOptionDialog(null, 
-        "Are you sure you want to Clear Database?", "Warning", 
-        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
-        ObjButtons,ObjButtons[1]);
-        if(PromptResult==0){
-        changesMade=true;
-        clearDatabase();
-        updateSettingsUI();
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton_checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_checkoutActionPerformed
-        // TODO add your handling code here:
-        //Remove an employee
-        
-          
-        
-        if(jTable_records.getSelectedRow()==-1){
-            JOptionPane.showMessageDialog(null, "Please select an employee from the table","Information",JOptionPane.INFORMATION_MESSAGE);
-            return ;
-        }
-        else{
-            String name=jTable_records.getModel().getValueAt(jTable_records.getSelectedRow(), jTable_records.getColumn("NAME").getModelIndex()).toString();
-        String ObjButtons[] = {"Yes","No"};
-          int PromptResult = JOptionPane.showOptionDialog(null, 
-        "Checkout "+name+" ?", "Warning", 
-        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
-        ObjButtons,ObjButtons[1]);
-          if(PromptResult==0){
-            changesMade=true;
-            ListIterator itr=camperLL.listIterator();
-            int hash=Integer.parseInt(jTable_records.getModel().getValueAt(jTable_records.getSelectedRow(),jTable_records.getColumn("hash").getModelIndex()).toString());
-            System.out.println(hash);
-             Camper camperLocal=new Camper();
-            while(itr.hasNext()){
-                camperLocal=(Camper)itr.next();
-                if(camperLocal.getHash()==hash){
-                    //remove this camper from camperLL
-                    camperLL.remove(camperLocal);
-                }
-            }
-            adjustCamperArray();
-          }
-        }
-    }//GEN-LAST:event_jButton_checkoutActionPerformed
-
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /* Set the Seaglass look and feel */
         
-        
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CampUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CampUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CampUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CampUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-       
-
-try {
-    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-            UIManager.setLookAndFeel(info.getClassName());
-            break;
-        }
-    }
-} catch (UnsupportedLookAndFeelException e) {
-    // handle exception
-} catch (ClassNotFoundException e) {
-    // handle exception
-} catch (InstantiationException e) {
-    // handle exception
-} catch (IllegalAccessException e) {
-    // handle exception
+   try {
+  
+//UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
+   // UIManager.setLookAndFeel(new SyntheticaStandardLookAndFeel());   
+UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+} catch (Exception e) {
+    e.printStackTrace();
 }
 
       
@@ -1055,21 +1463,33 @@ try {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton_checkout;
+    private javax.swing.JButton jButton_edit;
+    private javax.swing.JButton jButton_edit_room;
     private javax.swing.JButton jButton_newRec;
     private javax.swing.JButton jButton_save;
     private javax.swing.JButton jButton_save_settings;
+    private javax.swing.JComboBox jComboBox_query_choice;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel_bed_cost;
     private javax.swing.JLabel jLabel_beds;
+    private javax.swing.JLabel jLabel_capacity_queries;
     private javax.swing.JLabel jLabel_capacity_status;
     private javax.swing.JLabel jLabel_cost_status;
     private javax.swing.JLabel jLabel_count;
     private javax.swing.JLabel jLabel_max_rooms;
+    private javax.swing.JLabel jLabel_occupancy;
+    private javax.swing.JLabel jLabel_occupancy_status;
     private javax.swing.JLabel jLabel_record_count;
     private javax.swing.JLabel jLabel_rooms_available;
+    private javax.swing.JList jList_occupants_query;
     private javax.swing.JList jList_rooms;
+    private javax.swing.JList jList_rooms_query;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1078,14 +1498,28 @@ try {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7_queries;
+    private javax.swing.JPanel jPanel7_queries1;
+    private javax.swing.JPanel jPanel7_queries2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSpinner jSpinner_max_records;
     private javax.swing.JSpinner jSpinner_max_rooms;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTable jTable_camper;
     private javax.swing.JTable jTable_records;
+    private javax.swing.JTable jTable_room;
+    private javax.swing.JTextField jTextField_filter;
+    private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 
    static String readFile(String path, Charset encoding) 

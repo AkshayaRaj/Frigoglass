@@ -7,14 +7,22 @@
 package campmanager;
 
 import com.sun.management.jmx.Trace;
+import de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Locale;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,39 +34,68 @@ public class NewCamper extends javax.swing.JDialog {
      Camper camper;
      boolean added;
      public LinkedList roomsLL;
+     public LinkedList campersLL;
     public String[] nationality;
-    
+    public LinkedList available_rooms;
+    Vector<String> v ;
+    Locale[] locales;
+   
     /**
      * Creates new form NewCamper
      */
     public NewCamper(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        added=false;
+        added=false; 
         camper=new Camper();
         jTextField_phone_area.setUI(new JTextFieldHintUI("Area",Color.gray));
         jTextField_phone_number.setUI(new JTextFieldHintUI("Number",Color.gray));
         jTextField_other_nationality.setEditable(false);
-        
-        nationality =new String[] {"BAN","IND","NEP","PAK","PHIL","SRI"};
-        
-        
+        v = new Vector<String>();
+         locales = Locale.getAvailableLocales();
+            for (Locale locale : locales) {
+                 //String iso = locale.getISO3Country();
+                 //String code = locale.getCountry();
+                   String name = locale.getDisplayCountry();
+                if(!v.contains(name)) v.addElement(name);
+            }
+        Collections.sort(v);
+       jComboBox_nationality.setModel(new DefaultComboBoxModel(v));
+        jTextField_other_nationality.setEditable(true);
         
     }
 
-    public LinkedList getRoomsLL() {
-        return roomsLL;
+    public LinkedList getAvailable_rooms() {
+        return available_rooms;
     }
 
-    public void setRoomsLL(LinkedList roomsLL) {
-        this.roomsLL = roomsLL;
-        ListIterator itr=roomsLL.listIterator();
-        Room room;
+    public void setAvailable_rooms(LinkedList available_rooms) {
+        this.available_rooms = available_rooms;
+        ListIterator itr=available_rooms.listIterator();
+        Room room=new Room();
         while(itr.hasNext()){
             room=(Room)itr.next();
             jComboBox_room.addItem(room.getRoom_no());
             jComboBox_building.addItem(room.getBld_no());
         }
+    }
+
+    
+    public LinkedList getRoomsLL() {
+        return roomsLL;
+    }
+
+    public LinkedList getCampersLL() {
+        return campersLL;
+    }
+
+    public void setCampersLL(LinkedList campersLL) {
+        this.campersLL = campersLL;
+    }
+
+    public void setRoomsLL(LinkedList roomsLL) {
+        this.roomsLL = roomsLL;
+        
     }
     
     
@@ -71,6 +108,7 @@ public class NewCamper extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jProgressBar1 = new javax.swing.JProgressBar();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -92,9 +130,19 @@ public class NewCamper extends javax.swing.JDialog {
         jLabel_building = new javax.swing.JLabel();
         jComboBox_room = new javax.swing.JComboBox();
         jComboBox_building = new javax.swing.JComboBox();
+        jLabel_grade = new javax.swing.JLabel();
+        jComboBox_grade = new javax.swing.JComboBox();
+        jCheckBox_bedding = new javax.swing.JCheckBox();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel_abailable_beds = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel_capacity = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel_bed_cost = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel_nationality_status_analyser = new javax.swing.JLabel();
-        jLabel_rooms_with_nationality = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable_analyzer = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Record");
@@ -115,7 +163,7 @@ public class NewCamper extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setText("CEC No.");
+        jLabel2.setText("CEC #");
 
         jCheckBox_new_employee.setText("New Joinee");
         jCheckBox_new_employee.addActionListener(new java.awt.event.ActionListener() {
@@ -126,14 +174,13 @@ public class NewCamper extends javax.swing.JDialog {
 
         jLabel3.setText("Nationality");
 
-        jComboBox_nationality.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "BAN", "IND", "NEP", "PAK", "PHIL", "SRI", "OTHER" }));
         jComboBox_nationality.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_nationalityActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("Phone No.");
+        jLabel4.setText("Phone #");
 
         jTextField_phone_area.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,9 +201,43 @@ public class NewCamper extends javax.swing.JDialog {
 
         jLabel_status.setText("Status");
 
-        jLabel_room.setText("Room");
+        jLabel_room.setText("Room #");
 
-        jLabel_building.setText("Building");
+        jLabel_building.setText("Building #");
+
+        jComboBox_room.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_roomItemStateChanged(evt);
+            }
+        });
+        jComboBox_room.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_roomActionPerformed(evt);
+            }
+        });
+
+        jLabel_grade.setText("Grade");
+
+        jComboBox_grade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "S1", "S2", "S3", "S4", "S5", "T1", "T2", "T3", "T4", "T5", "T6", "T7" }));
+
+        jCheckBox_bedding.setText("Bedding");
+        jCheckBox_bedding.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_beddingActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Available Beds :");
+
+        jLabel_abailable_beds.setText("-");
+
+        jLabel7.setText("Capacity:");
+
+        jLabel_capacity.setText("-");
+
+        jLabel8.setText("Bed Cost : ");
+
+        jLabel_bed_cost.setText("-");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,45 +248,69 @@ public class NewCamper extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel_status, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_add)
-                        .addGap(10, 10, 10))
+                        .addGap(257, 372, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel_building)
                             .addComponent(jLabel_room))
                         .addGap(55, 55, 55)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jComboBox_building, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox_room, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jCheckBox_bedding)
+                                            .addComponent(jLabel_bed_cost)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(17, 17, 17)
+                                        .addComponent(jLabel7)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jLabel_capacity)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel_abailable_beds))))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jTextField_phone_area, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField_phone_number, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jComboBox_camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jComboBox_nationality, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField_other_nationality, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel_status, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                        .addComponent(jButton_add)
+                        .addGap(10, 10, 10))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_grade))
+                        .addGap(55, 55, 55)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jComboBox_grade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jTextField_name)
-                                    .addComponent(jTextField_CEC)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jComboBox_nationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField_other_nationality, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jTextField_phone_area, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField_phone_number)))
+                                    .addComponent(jTextField_CEC))
                                 .addGap(31, 31, 31)
-                                .addComponent(jCheckBox_new_employee))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox_camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jComboBox_building, javax.swing.GroupLayout.Alignment.LEADING, 0, 79, Short.MAX_VALUE)
-                                        .addComponent(jComboBox_room, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                .addComponent(jCheckBox_new_employee)
+                                .addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,6 +324,10 @@ public class NewCamper extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(jCheckBox_new_employee)
                     .addComponent(jTextField_CEC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_grade)
+                    .addComponent(jComboBox_grade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -237,23 +346,55 @@ public class NewCamper extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_room)
-                    .addComponent(jComboBox_room, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox_room, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel_abailable_beds)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel_capacity))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_building)
-                    .addComponent(jComboBox_building, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                    .addComponent(jComboBox_building, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel_bed_cost))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton_add)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jCheckBox_bedding)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addComponent(jButton_add))
                     .addComponent(jLabel_status, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Single ", jPanel1);
+        jTabbedPane2.addTab("Information ", jPanel1);
 
-        jLabel_nationality_status_analyser.setText("jLabel6");
+        jLabel_nationality_status_analyser.setText("Rooms with nationality");
 
-        jLabel_rooms_with_nationality.setText("jLabel7");
+        jTable_analyzer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Room #", "Building #", "Capacity", "Occupancy", "Bed Cost"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable_analyzer);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -261,19 +402,19 @@ public class NewCamper extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jLabel_nationality_status_analyser)
-                .addGap(28, 28, 28)
-                .addComponent(jLabel_rooms_with_nationality)
-                .addContainerGap(308, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_nationality_status_analyser))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_nationality_status_analyser)
-                    .addComponent(jLabel_rooms_with_nationality))
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addComponent(jLabel_nationality_status_analyser)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Analyser", jPanel2);
@@ -282,13 +423,13 @@ public class NewCamper extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2)
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE))
         );
 
         pack();
@@ -306,7 +447,8 @@ public class NewCamper extends javax.swing.JDialog {
 
     private void jComboBox_nationalityActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jComboBox_nationalityActionPerformed
         // TODO add your handling code here:
-        if(jComboBox_nationality.getSelectedItem().toString().equals("OTHER"))
+        //System.out.println(jComboBox_nationality.getSelectedIndex());
+        if(jComboBox_nationality.getSelectedIndex()==0)
              jTextField_other_nationality.setEditable(true);
         else{
             jTextField_other_nationality.setText(null);
@@ -324,8 +466,8 @@ public class NewCamper extends javax.swing.JDialog {
         try{
         camper.name=jTextField_name.getText();
         camper.cec_no=jTextField_CEC.getText();
-        if(!(jComboBox_nationality.getSelectedItem().toString().equals("OTHER")))
-             camper.nationality=nationality[jComboBox_nationality.getSelectedIndex()]; // this will return the index of the selected item.. take care care to map the indexes properly
+        if(!(jComboBox_nationality.getSelectedIndex()==0))
+             camper.nationality=jComboBox_nationality.getSelectedItem().toString(); // this will return the index of the selected item.. take care care to map the indexes properly
         else
              camper.nationality=jTextField_other_nationality.getText();
 
@@ -339,7 +481,8 @@ public class NewCamper extends javax.swing.JDialog {
         camper.getRoom().setBld_no(jComboBox_building.getSelectedItem().toString());
         camper.getRoom().setRoom_no(jComboBox_room.getSelectedItem().toString());
         camper.setHash(camper.hashCode());
-       
+        camper.setGrade(jComboBox_grade.getSelectedItem().toString());
+        camper.setBedding(jCheckBox_bedding.isSelected());
         if(jTextField_name.getCaretPosition()==0 || ((jTextField_CEC.getCaretPosition()==0) && !(jCheckBox_new_employee.isSelected()))){
             throw new NullPointerException();
 
@@ -379,34 +522,71 @@ public class NewCamper extends javax.swing.JDialog {
 
     private void jTabbedPane2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane2FocusGained
         // TODO add your handling code here:
-        jLabel_nationality_status_analyser.setText("Rooms with "+jComboBox_nationality.getSelectedItem().toString()+" nationality");
+        jLabel_nationality_status_analyser.setText("Rooms containing people from "+jComboBox_nationality.getSelectedItem().toString());
+        DefaultTableModel model=(DefaultTableModel)jTable_analyzer.getModel();
+        model.setRowCount(0); //clears the table
+        ListIterator itr=roomsLL.listIterator();
+        Room room_here=new Room();
+        String nat=jComboBox_nationality.getSelectedItem().toString();
+        while(itr.hasNext()){
+            room_here=(Room)itr.next();
+            if(room_here.containsNationality(nat)>0){
+                model.addRow(new Object[]{room_here.getRoom_no(),room_here.getBld_no(),room_here.getCapacity(),room_here.getOccupancy(),room_here.getCost()});
+            }
+           
+        }        
+            
+            
+            
+        
+        //jTable_analyzer.setModel(model);
+        //resizeColumnWidth(jTab)
     }//GEN-LAST:event_jTabbedPane2FocusGained
+
+    private void jCheckBox_beddingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_beddingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_beddingActionPerformed
+
+    private void jComboBox_roomItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_roomItemStateChanged
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jComboBox_roomItemStateChanged
+
+    private void jComboBox_roomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_roomActionPerformed
+        // TODO add your handling code here:
+         String room_no=jComboBox_room.getSelectedItem().toString();
+         
+         System.out.println(room_no);
+         
+         try{
+         ListIterator itr=roomsLL.listIterator();
+         
+         Room room_h=new Room();
+         while(itr.hasNext()){
+             room_h=(Room)itr.next();
+             if(room_h.getRoom_no().equals(room_no)){
+                 jLabel_abailable_beds.setText(Integer.toString((room_h.getCapacity()-room_h.getOccupancy())));
+                 jLabel_capacity.setText(Integer.toString(room_h.getCapacity()));
+                 jLabel_bed_cost.setText(Integer.toString(room_h.getCost()));
+             }
+         }
+         }
+         catch(NullPointerException e){
+             
+         }
+         
+    }//GEN-LAST:event_jComboBox_roomActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /* Set the Synthetica look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewCamper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewCamper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewCamper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewCamper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+         
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -427,9 +607,11 @@ public class NewCamper extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_add;
+    private javax.swing.JCheckBox jCheckBox_bedding;
     private javax.swing.JCheckBox jCheckBox_new_employee;
     private javax.swing.JComboBox jComboBox_building;
     private javax.swing.JComboBox jComboBox_camp;
+    private javax.swing.JComboBox jComboBox_grade;
     private javax.swing.JComboBox jComboBox_nationality;
     private javax.swing.JComboBox jComboBox_room;
     private javax.swing.JLabel jLabel1;
@@ -437,14 +619,23 @@ public class NewCamper extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel_abailable_beds;
+    private javax.swing.JLabel jLabel_bed_cost;
     private javax.swing.JLabel jLabel_building;
+    private javax.swing.JLabel jLabel_capacity;
+    private javax.swing.JLabel jLabel_grade;
     private javax.swing.JLabel jLabel_nationality_status_analyser;
     private javax.swing.JLabel jLabel_room;
-    private javax.swing.JLabel jLabel_rooms_with_nationality;
     private javax.swing.JLabel jLabel_status;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTable jTable_analyzer;
     private javax.swing.JTextField jTextField_CEC;
     private javax.swing.JTextField jTextField_name;
     private javax.swing.JTextField jTextField_other_nationality;

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.JProgressBar" name="jProgressBar1">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Add Record"/>
@@ -24,14 +28,14 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane2" alignment="0" max="32767" attributes="0"/>
+          <Component id="jTabbedPane2" alignment="0" pref="438" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPane2" pref="316" max="32767" attributes="0"/>
+              <Component id="jTabbedPane2" pref="374" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -52,8 +56,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Single ">
-                <Property name="tabTitle" type="java.lang.String" value="Single "/>
+              <JTabbedPaneConstraints tabName="Information ">
+                <Property name="tabTitle" type="java.lang.String" value="Information "/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -64,58 +68,90 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="357" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel_status" min="-2" pref="170" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton_add" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <EmptySpace min="257" pref="372" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel1" alignment="0" min="-2" pref="51" max="-2" attributes="0"/>
                                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel_building" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel_room" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="jComboBox_building" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jComboBox_room" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jCheckBox_bedding" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel_bed_cost" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                              <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                              <Component id="jLabel_capacity" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jLabel_abailable_beds" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jTextField_phone_area" min="-2" pref="39" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jTextField_phone_number" min="-2" pref="156" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jComboBox_camp" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jComboBox_nationality" min="-2" pref="162" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextField_other_nationality" min="-2" pref="68" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel_status" min="-2" pref="170" max="-2" attributes="0"/>
+                              <EmptySpace pref="182" max="32767" attributes="0"/>
+                              <Component id="jButton_add" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="0" min="-2" pref="51" max="-2" attributes="0"/>
+                                  <Component id="jLabel_grade" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jComboBox_grade" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="jTextField_name" max="32767" attributes="0"/>
                                           <Component id="jTextField_CEC" alignment="1" max="32767" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jComboBox_nationality" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jTextField_other_nationality" min="-2" pref="52" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Component id="jTextField_phone_area" min="-2" pref="39" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jTextField_phone_number" max="32767" attributes="0"/>
-                                          </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                       <Component id="jCheckBox_new_employee" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jComboBox_camp" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="jComboBox_building" alignment="0" pref="79" max="32767" attributes="0"/>
-                                              <Component id="jComboBox_room" alignment="0" max="32767" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -135,10 +171,15 @@
                           <Component id="jCheckBox_new_employee" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField_CEC" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_grade" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBox_grade" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="jComboBox_nationality" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextField_other_nationality" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -158,15 +199,25 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel_room" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jComboBox_room" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_abailable_beds" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_capacity" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel_building" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jComboBox_building" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_bed_cost" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="14" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jButton_add" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jCheckBox_bedding" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="9" max="32767" attributes="0"/>
+                              <Component id="jButton_add" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <Component id="jLabel_status" alignment="1" min="-2" pref="41" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -187,7 +238,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="CEC No."/>
+                <Property name="text" type="java.lang.String" value="CEC #"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="jCheckBox_new_employee">
@@ -206,26 +257,13 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBox_nationality">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="7">
-                    <StringItem index="0" value="BAN"/>
-                    <StringItem index="1" value="IND"/>
-                    <StringItem index="2" value="NEP"/>
-                    <StringItem index="3" value="PAK"/>
-                    <StringItem index="4" value="PHIL"/>
-                    <StringItem index="5" value="SRI"/>
-                    <StringItem index="6" value="OTHER"/>
-                  </StringArray>
-                </Property>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox_nationalityActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Phone No."/>
+                <Property name="text" type="java.lang.String" value="Phone #"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField_phone_area">
@@ -270,12 +308,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel_room">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Room"/>
+                <Property name="text" type="java.lang.String" value="Room #"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel_building">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Building"/>
+                <Property name="text" type="java.lang.String" value="Building #"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBox_room">
@@ -284,12 +322,79 @@
                   <StringArray count="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox_roomItemStateChanged"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox_roomActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBox_building">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_grade">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Grade"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBox_grade">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="12">
+                    <StringItem index="0" value="S1"/>
+                    <StringItem index="1" value="S2"/>
+                    <StringItem index="2" value="S3"/>
+                    <StringItem index="3" value="S4"/>
+                    <StringItem index="4" value="S5"/>
+                    <StringItem index="5" value="T1"/>
+                    <StringItem index="6" value="T2"/>
+                    <StringItem index="7" value="T3"/>
+                    <StringItem index="8" value="T4"/>
+                    <StringItem index="9" value="T5"/>
+                    <StringItem index="10" value="T6"/>
+                    <StringItem index="11" value="T7"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBox_bedding">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Bedding"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox_beddingActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel6">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Available Beds :"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_abailable_beds">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="-"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel7">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Capacity:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_capacity">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="-"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Bed Cost : "/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_bed_cost">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="-"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -308,10 +413,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="jLabel_nationality_status_analyser" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                      <Component id="jLabel_rooms_with_nationality" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="308" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane1" min="-2" pref="364" max="-2" attributes="0"/>
+                          <Component id="jLabel_nationality_status_analyser" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -319,11 +425,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel_nationality_status_analyser" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_rooms_with_nationality" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="235" max="32767" attributes="0"/>
+                      <Component id="jLabel_nationality_status_analyser" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="152" max="-2" attributes="0"/>
+                      <EmptySpace pref="123" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -331,14 +436,28 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel_nationality_status_analyser">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jLabel6"/>
+                <Property name="text" type="java.lang.String" value="Rooms with nationality"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel_rooms_with_nationality">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jLabel7"/>
-              </Properties>
-            </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="jTable_analyzer">
+                  <Properties>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="5" rowCount="0">
+                        <Column editable="false" title="Room #" type="java.lang.String"/>
+                        <Column editable="false" title="Building #" type="java.lang.String"/>
+                        <Column editable="false" title="Capacity" type="java.lang.String"/>
+                        <Column editable="false" title="Occupancy" type="java.lang.String"/>
+                        <Column editable="false" title="Bed Cost" type="java.lang.String"/>
+                      </Table>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
       </SubComponents>

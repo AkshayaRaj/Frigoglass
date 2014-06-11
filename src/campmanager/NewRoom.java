@@ -30,6 +30,19 @@ public class NewRoom extends javax.swing.JDialog {
          jTextField_bed_cost.setText("500");
          jSpinner_room_capacity.setValue(3);
     }
+     public NewRoom(java.awt.Frame parent, boolean modal,Room room_here) {
+        super(parent, modal);
+        initComponents();
+        room =new Room();
+        success=false;
+        if(room_here!=null){
+        jTextField_room_no.setText(room_here.getRoom_no().substring(0, room_here.getRoom_no().length()-1));
+        jTextField_room_code.setText(room_here.getRoom_no().toString().substring(room_here.getRoom_no().length()-1));
+        
+         jTextField_bed_cost.setText(Integer.toString(room_here.getCost()));
+         jSpinner_room_capacity.setValue(room_here.getCapacity());
+        }
+    }
 
     public Room getRoom() {
         return room;

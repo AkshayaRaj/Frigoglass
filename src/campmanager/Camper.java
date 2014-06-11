@@ -47,11 +47,15 @@ public class Camper {
     public String nationality;
     public  Phone phone_no;
     private int hash;
+    private boolean bedding;
+    private String religion;
+    private String grade;
+    
     Camper() {
        
     }
     public enum location {JuniorNE,SeniorNE,LabourNE,LabourS,JuniorS};
-    public static String location[]=new String []{"JuniorNE","SeniorNE","LabourNE","LabourS","JuniorS"};
+    public static String location[]=new String []{"Junior-NE","Senior-NE","Labour-NE","Labour-S","Junior-S"};
     public boolean newEmployee;
     location loc;
     String camp_location;
@@ -59,6 +63,46 @@ public class Camper {
 
     public Room getRoom() {
         return room;
+    }
+
+    public boolean isBedding() {
+        return bedding;
+    }
+
+    public void setBedding(boolean bedding) {
+        this.bedding = bedding;
+    }
+
+    public String getReligion() {
+        return religion;
+    }
+
+    public void setReligion(String religion) {
+        this.religion = religion;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public boolean isNewEmployee() {
+        return newEmployee;
+    }
+
+    public void setNewEmployee(boolean newEmployee) {
+        this.newEmployee = newEmployee;
+    }
+
+    public String getCamp_location() {
+        return camp_location;
+    }
+
+    public void setCamp_location(String camp_location) {
+        this.camp_location = camp_location;
     }
 
     public void setRoom(Room room) {

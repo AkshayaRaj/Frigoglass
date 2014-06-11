@@ -1,0 +1,59 @@
+<Container>
+  <camper>
+    <Person>
+      <name>Akshaya</name>
+      <cec__no>New Joinee</cec__no>
+      <nationality>IND</nationality>
+      <phone__no>
+        <area>123</area>
+        <number>12341234</number>
+      </phone__no>
+      <hash>21220324</hash>
+      <newEmployee>true</newEmployee>
+      <camp__location>JuniorNE</camp__location>
+      <room>
+        <bld__no>J 3</bld__no>
+        <room__no>102 A</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Vasu</name>
+      <cec__no>123123</cec__no>
+      <nationality>IND</nationality>
+      <phone__no>
+        <area>234</area>
+        <number>12312312</number>
+      </phone__no>
+      <hash>10323336</hash>
+      <newEmployee>false</newEmployee>
+      <camp__location>JuniorNE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>103 A</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Primo Cruz Verceles</name>
+      <cec__no>80510</cec__no>
+      <nationality>PHIL</nationality>
+      <phone__no>
+        <area>50</area>
+        <number>5951327</number>
+      </phone__no>
+      <hash>9107464</hash>
+      <newEmployee>false</newEmployee>
+      <camp__location>JuniorNE</camp__location>
+      <room>
+        <bld__no>J 3</bld__no>
+        <room__no>104 B</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+      </room>
+    </Person>
+  </camper>
+  <count>3</count>
+</Container>
