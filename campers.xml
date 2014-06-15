@@ -1,50 +1,79 @@
 <Container>
-  <count>2</count>
+  <count>3</count>
   <camperLL>
     <Person>
-      <name>Akshaya</name>
-      <cec__no>New Joinee</cec__no>
-      <nationality>India</nationality>
+      <name>sdfd</name>
+      <cec__no>324</cec__no>
+      <nationality>Bahrain</nationality>
       <phone__no>
-        <area>12</area>
-        <number>123123</number>
+        <area>234</area>
+        <number>234234</number>
       </phone__no>
-      <hash>17461244</hash>
-      <bedding>false</bedding>
+      <hash>4986079</hash>
+      <bedding>true</bedding>
       <grade>S1</grade>
-      <newEmployee>true</newEmployee>
+      <newEmployee>false</newEmployee>
       <camp__location>Junior-NE</camp__location>
       <room>
         <bld__no>J 3</bld__no>
-        <room__no>101 B</room__no>
+        <room__no>101 A</room__no>
         <capacity>0</capacity>
         <cost>0</cost>
         <occupancy>0</occupancy>
         <campers__in__room/>
         <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
       </room>
     </Person>
     <Person>
-      <name>Raj</name>
+      <name>Tom Hanks</name>
       <cec__no>New Joinee</cec__no>
-      <nationality>Albania</nationality>
+      <nationality>Croatia</nationality>
       <phone__no>
-        <area>123</area>
-        <number>123123</number>
+        <area>234</area>
+        <number>23423</number>
       </phone__no>
-      <hash>27555217</hash>
+      <hash>3567154</hash>
       <bedding>false</bedding>
       <grade>S1</grade>
       <newEmployee>true</newEmployee>
       <camp__location>Junior-NE</camp__location>
       <room>
         <bld__no>J 3</bld__no>
-        <room__no>101 B</room__no>
+        <room__no>101 A</room__no>
         <capacity>0</capacity>
         <cost>0</cost>
         <occupancy>0</occupancy>
         <campers__in__room/>
         <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>akshaya</name>
+      <cec__no>New Joinee</cec__no>
+      <nationality>Albania</nationality>
+      <phone__no>
+        <area>234</area>
+        <number>234234</number>
+      </phone__no>
+      <hash>21644102</hash>
+      <bedding>true</bedding>
+      <grade>S1</grade>
+      <newEmployee>true</newEmployee>
+      <camp__location>Labour-NE</camp__location>
+      <room>
+        <bld__no>J 4</bld__no>
+        <room__no>104 -</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
       </room>
     </Person>
   </camperLL>

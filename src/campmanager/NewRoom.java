@@ -35,10 +35,11 @@ public class NewRoom extends javax.swing.JDialog {
         initComponents();
         room =new Room();
         success=false;
+         setTitle("Edit Room");
         if(room_here!=null){
         jTextField_room_no.setText(room_here.getRoom_no().substring(0, room_here.getRoom_no().length()-1));
         jTextField_room_code.setText(room_here.getRoom_no().toString().substring(room_here.getRoom_no().length()-1));
-        
+        jTextField_room_cost.setText(Integer.toString(room_here.getRoom_cost()));
          jTextField_bed_cost.setText(Integer.toString(room_here.getCost()));
          jSpinner_room_capacity.setValue(room_here.getCapacity());
         }
@@ -70,6 +71,12 @@ public class NewRoom extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jComboBox_bld_no = new javax.swing.JComboBox();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField_room_cost = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jCheckBox_no_code = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Room");
@@ -99,6 +106,28 @@ public class NewRoom extends javax.swing.JDialog {
 
         jComboBox_bld_no.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "J 3", "J 4", "J 6", "J 9", "J 10", "J 12", "JB 6", "JB 18", "L 4", "L 18", "L 25", "L 31", "S 17", "S 26", "SB 1" }));
 
+        jLabel6.setText("Camp");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Junior Accommodation (New East )", "Senior Accommodation (New East)\t\t", "Labour Accommodaion (New East)\t\t", "Labour Accommodaion (South Camp)\t\t", "Junior Accommodation(South Camp)" }));
+
+        jLabel7.setText("Room Cost p/a");
+
+        jTextField_room_cost.setText(" ");
+        jTextField_room_cost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_room_costActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("AED");
+
+        jCheckBox_no_code.setText("No Code");
+        jCheckBox_no_code.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_no_codeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,44 +137,57 @@ public class NewRoom extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton_add_room))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton_add_room, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(18, 18, 18))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(58, 58, 58)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox_bld_no, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextField_room_cost, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField_bed_cost, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                                    .addComponent(jSpinner_room_capacity, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel8)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField_room_no, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel_code)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField_room_code, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField_room_no, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel_code)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField_room_code, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField_bed_cost, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-                                            .addComponent(jSpinner_room_capacity))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel4))))
-                            .addComponent(jLabel5)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jComboBox_bld_no, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36)))
-                        .addGap(0, 49, Short.MAX_VALUE)))
+                                .addComponent(jCheckBox_no_code)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField_room_no, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_code)
-                    .addComponent(jTextField_room_code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField_room_code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox_no_code))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -155,11 +197,20 @@ public class NewRoom extends javax.swing.JDialog {
                     .addComponent(jTextField_bed_cost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextField_room_cost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jComboBox_bld_no, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_add_room)
                 .addContainerGap())
         );
@@ -182,9 +233,10 @@ public class NewRoom extends javax.swing.JDialog {
             success=false;
         }
         
-        room.setRoom_no(jTextField_room_no.getText()+jTextField_room_code.getText());
+        room.setRoom_no(jTextField_room_no.getText().trim()+" "+jTextField_room_code.getText().trim());
         try{
         room.setCost(Integer.parseInt(jTextField_bed_cost.getText()));
+        room.setRoom_cost(Integer.parseInt(jTextField_room_cost.getText()));
         }
         catch(IllegalArgumentException e){
             room.setCost(500);
@@ -194,12 +246,30 @@ public class NewRoom extends javax.swing.JDialog {
         
         room.setBld_no(jComboBox_bld_no.getSelectedItem().toString());
       
+        room.setCamp(jComboBox1.getSelectedIndex());
+       // System.out.println(jComboBox1.getSelectedIndex());
         if(success){
             final JPanel info=new JPanel();
             //JOptionPane.showMessageDialog(info, jTextField_room_no.getText()+" added .. ","Information",JOptionPane.INFORMATION_MESSAGE);
             dispose();
         }
     }//GEN-LAST:event_jButton_add_roomActionPerformed
+
+    private void jTextField_room_costActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_room_costActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_room_costActionPerformed
+
+    private void jCheckBox_no_codeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_no_codeActionPerformed
+        // TODO add your handling code here:
+        if(jCheckBox_no_code.isSelected()){
+            jTextField_room_code.setText("-");
+            jTextField_room_code.setEditable(false);
+        }
+        else{
+            jTextField_room_code.setText("");
+            jTextField_room_code.setEditable(true);
+        }
+    }//GEN-LAST:event_jCheckBox_no_codeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -245,16 +315,22 @@ public class NewRoom extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_add_room;
+    private javax.swing.JCheckBox jCheckBox_no_code;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox_bld_no;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel_code;
     private javax.swing.JSpinner jSpinner_room_capacity;
     private javax.swing.JTextField jTextField_bed_cost;
     private javax.swing.JTextField jTextField_room_code;
+    private javax.swing.JTextField jTextField_room_cost;
     private javax.swing.JTextField jTextField_room_no;
     // End of variables declaration//GEN-END:variables
 }

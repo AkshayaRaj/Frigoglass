@@ -22,7 +22,8 @@ public class Room {
         int occupancy;
         private LinkedList<Camper> campers_in_room=new LinkedList<Camper>();
         boolean full;
-        
+        private int camp;
+        private int room_cost;
         
         public boolean checkIn(Camper camper){
             
@@ -36,6 +37,34 @@ public class Room {
             }
             
             return false;
+        }
+
+    public int getCamp() {
+        return camp;
+    }
+
+    public void setCamp(int camp) {
+        this.camp = camp;
+    }
+
+    public int getRoom_cost() {
+        return room_cost;
+    }
+
+    public void setRoom_cost(int room_cost) {
+        this.room_cost = room_cost;
+    }
+       
+    
+        
+        public void setCamperRoom(){
+            ListIterator itr=campers_in_room.listIterator();
+            Camper c=new Camper();
+            while(itr.hasNext()){
+                c=(Camper)itr.next();
+                c.setRoom(this);
+                campers_in_room.set(itr.nextIndex()-1, c);
+            }
         }
         
         public void clear(){
@@ -56,6 +85,7 @@ public class Room {
                 }
             }
             if(found){
+                
                 
             }
             
@@ -82,7 +112,8 @@ public class Room {
             ListIterator itr=campers_in_room.listIterator();
             while(itr.hasNext()){
                 camper_local=(Camper)itr.next();
-                if(camper_local.getName().equals(camper.getName()) && camper_local.getCec_no().equals(camper.getCec_no())){
+                if(camper_local.getName().equals(camper.getName())){
+                    System.out.println("yo");
                     campers_in_room.remove(itr.nextIndex()-1);
                 }
             }
@@ -96,6 +127,13 @@ public class Room {
             return false;
         }
 
+        @Override
+        public String toString() {
+            return this.room_no.toString();
+        }
+        
+        
+        
     public boolean isFull() {
         return full;
     }

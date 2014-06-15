@@ -61,7 +61,7 @@ public class NewCamper extends javax.swing.JDialog {
             }
         Collections.sort(v);
        jComboBox_nationality.setModel(new DefaultComboBoxModel(v));
-        jTextField_other_nationality.setEditable(true);
+       jTextField_other_nationality.setEditable(true);
         
     }
 
@@ -71,13 +71,7 @@ public class NewCamper extends javax.swing.JDialog {
 
     public void setAvailable_rooms(LinkedList available_rooms) {
         this.available_rooms = available_rooms;
-        ListIterator itr=available_rooms.listIterator();
-        Room room=new Room();
-        while(itr.hasNext()){
-            room=(Room)itr.next();
-            jComboBox_room.addItem(room.getRoom_no());
-            jComboBox_building.addItem(room.getBld_no());
-        }
+       
     }
 
     
@@ -145,7 +139,8 @@ public class NewCamper extends javax.swing.JDialog {
         jTable_analyzer = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Add Record");
+        setTitle("Check In");
+        setIconImage(null);
 
         jTabbedPane2.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -191,6 +186,11 @@ public class NewCamper extends javax.swing.JDialog {
         jLabel5.setText("Camp");
 
         jComboBox_camp.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Junior Accommodation (New East )", "Senior Accommodation (New East)\t\t", "Labour Accommodaion (New East)\t\t", "Labour Accommodaion (South Camp)\t\t", "Junior Accommodation(South Camp)" }));
+        jComboBox_camp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_campActionPerformed(evt);
+            }
+        });
 
         jButton_add.setText("Add");
         jButton_add.addActionListener(new java.awt.event.ActionListener() {
@@ -361,13 +361,13 @@ public class NewCamper extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jCheckBox_bedding)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton_add))
                     .addComponent(jLabel_status, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Information ", jPanel1);
+        jTabbedPane2.addTab("Information ", new javax.swing.ImageIcon(getClass().getResource("/png/16/briefcase.png")), jPanel1); // NOI18N
 
         jLabel_nationality_status_analyser.setText("Rooms with nationality");
 
@@ -414,10 +414,10 @@ public class NewCamper extends javax.swing.JDialog {
                 .addComponent(jLabel_nationality_status_analyser)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Analyser", jPanel2);
+        jTabbedPane2.addTab("Analyser", new javax.swing.ImageIcon(getClass().getResource("/png/rules16.png")), jPanel2); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -429,7 +429,7 @@ public class NewCamper extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
         );
 
         pack();
@@ -554,9 +554,18 @@ public class NewCamper extends javax.swing.JDialog {
 
     private void jComboBox_roomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_roomActionPerformed
         // TODO add your handling code here:
-         String room_no=jComboBox_room.getSelectedItem().toString();
-         
-         System.out.println(room_no);
+        String room_no;
+        try{
+          room_no=jComboBox_room.getSelectedItem().toString();
+          
+        }
+        catch(NullPointerException e){
+                    jLabel_abailable_beds.setText("-");
+                 jLabel_capacity.setText("-");
+                 jLabel_bed_cost.setText("-");
+            return;
+        }
+         //System.out.println(room_no);
          
          try{
          ListIterator itr=roomsLL.listIterator();
@@ -565,6 +574,8 @@ public class NewCamper extends javax.swing.JDialog {
          while(itr.hasNext()){
              room_h=(Room)itr.next();
              if(room_h.getRoom_no().equals(room_no)){
+                 jComboBox_building.removeAllItems();
+                 jComboBox_building.addItem(room_h.getBld_no());
                  jLabel_abailable_beds.setText(Integer.toString((room_h.getCapacity()-room_h.getOccupancy())));
                  jLabel_capacity.setText(Integer.toString(room_h.getCapacity()));
                  jLabel_bed_cost.setText(Integer.toString(room_h.getCost()));
@@ -576,6 +587,19 @@ public class NewCamper extends javax.swing.JDialog {
          }
          
     }//GEN-LAST:event_jComboBox_roomActionPerformed
+
+    private void jComboBox_campActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_campActionPerformed
+        // TODO add your handling code here:
+         ListIterator itr=available_rooms.listIterator();
+        Room room=new Room();
+        jComboBox_room.removeAllItems();
+        while(itr.hasNext()){
+            room=(Room)itr.next();
+            if(jComboBox_camp.getSelectedIndex()==room.getCamp())
+                jComboBox_room.addItem(room.getRoom_no());
+            //jComboBox_building.addItem(room.getBld_no());
+        }
+    }//GEN-LAST:event_jComboBox_campActionPerformed
 
     /**
      * @param args the command line arguments
