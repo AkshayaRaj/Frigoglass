@@ -58,7 +58,12 @@ public class NewCamper extends javax.swing.JDialog {
                  //String code = locale.getCountry();
                    String name = locale.getDisplayCountry();
                 if(!v.contains(name)) v.addElement(name);
+                
             }
+            if(!v.contains("Pakistan")) v.addElement("Pakistan");
+            if(!v.contains("Bangladesh")) v.addElement("Bangladesh");
+            if(!v.contains("Sri Lanka")) v.addElement("Sri Lanka");
+            if(!v.contains("Nepal")) v.addElement("Nepal");
         Collections.sort(v);
        jComboBox_nationality.setModel(new DefaultComboBoxModel(v));
        jTextField_other_nationality.setEditable(true);
@@ -218,7 +223,7 @@ public class NewCamper extends javax.swing.JDialog {
 
         jLabel_grade.setText("Grade");
 
-        jComboBox_grade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "S1", "S2", "S3", "S4", "S5", "T1", "T2", "T3", "T4", "T5", "T6", "T7" }));
+        jComboBox_grade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "S1", "S2", "S3", "S4", "S5", "T1", "T2", "T3", "T4", "T5", "T6", "T7" }));
 
         jCheckBox_bedding.setText("Bedding");
         jCheckBox_bedding.addActionListener(new java.awt.event.ActionListener() {
@@ -367,7 +372,7 @@ public class NewCamper extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Information ", new javax.swing.ImageIcon(getClass().getResource("/png/16/briefcase.png")), jPanel1); // NOI18N
+        jTabbedPane2.addTab("Information ", new javax.swing.ImageIcon(getClass().getResource("/campmanager/resources/24/briefcase.png")), jPanel1); // NOI18N
 
         jLabel_nationality_status_analyser.setText("Rooms with nationality");
 
@@ -414,10 +419,10 @@ public class NewCamper extends javax.swing.JDialog {
                 .addComponent(jLabel_nationality_status_analyser)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Analyser", new javax.swing.ImageIcon(getClass().getResource("/png/rules16.png")), jPanel2); // NOI18N
+        jTabbedPane2.addTab("Analyser", new javax.swing.ImageIcon(getClass().getResource("/campmanager/resources/rules24.png")), jPanel2); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

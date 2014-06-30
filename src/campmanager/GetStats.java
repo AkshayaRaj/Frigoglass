@@ -26,6 +26,7 @@ import com.googlecode.charts4j.RadarPlot;
 import com.googlecode.charts4j.RadialAxisLabels;
 import com.googlecode.charts4j.Shape;
 import com.googlecode.charts4j.Slice;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,18 +50,20 @@ public class GetStats {
         
     }
     
-    public boolean containsRoom(String room_name){
+    
+    public boolean containsRoom(String room_name,String building){
         ListIterator itr=roomLL.listIterator();
         Room here=new Room();
         while(itr.hasNext()){
             here=(Room)itr.next();
-            if(here.getRoom_no().equals(room_name))
+            if(here.getRoom_no().equals(room_name) && here.getBld_no().equals(building))
                 return true;
         }
         return false;
     }
     
     LinkedList getAvailableRooms(){        
+        
         ListIterator itr_room=roomLL.listIterator();
         LinkedList<Room> available_rooms=new LinkedList<Room>();
         
@@ -74,6 +77,29 @@ public class GetStats {
         }
         
         return available_rooms;
+    }
+    
+    int getAvailableBeds(){
+        ListIterator itr=getAvailableRooms().listIterator();
+        Room room=new Room();
+        int beds=0;
+        while(itr.hasNext()){
+            room=(Room)itr.next();
+            beds+=room.getCapacity()-room.getOccupancy();
+        }
+        return beds;
+        
+    }
+    public boolean containsCamper(String name,String CEC){
+        ListIterator itr=camperLL.listIterator();
+        Camper camper=new Camper();
+        while(itr.hasNext()){
+            camper=(Camper)itr.next();
+            if(camper.getName().trim().equals(name.trim())&& camper.getCec_no().trim().equals(CEC.trim())){
+                return true;
+            }
+        }
+        return false;
     }
    public String chart_pie_nationality(){
        ListIterator itr=camperLL.listIterator();

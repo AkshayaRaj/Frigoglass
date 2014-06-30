@@ -41,8 +41,8 @@ public ExcelAdapter(JTable myJTable)
       KeyStroke paste = KeyStroke.getKeyStroke(KeyEvent.VK_V,ActionEvent.CTRL_MASK,false);
       // Identifying the Paste KeyStroke user can modify this
       //to copy on some other Key combination.
-jTable1.registerKeyboardAction(this,"Copy",copy,JComponent.WHEN_FOCUSED);
-jTable1.registerKeyboardAction(this,"Paste",paste,JComponent.WHEN_FOCUSED);
+        jTable1.registerKeyboardAction(this,"Copy",copy,JComponent.WHEN_FOCUSED);
+        jTable1.registerKeyboardAction(this,"Paste",paste,JComponent.WHEN_FOCUSED);
       system = Toolkit.getDefaultToolkit().getSystemClipboard();
    }
    /**

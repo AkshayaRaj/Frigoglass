@@ -35,7 +35,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPane2" pref="374" max="32767" attributes="0"/>
+              <Component id="jTabbedPane2" pref="377" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -58,6 +58,9 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Information ">
                 <Property name="tabTitle" type="java.lang.String" value="Information "/>
+                <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/campmanager/resources/24/briefcase.png"/>
+                </Property>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -196,7 +199,7 @@
                           <Component id="jTextField_phone_area" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField_phone_number" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="9" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jCheckBox_transfer" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -349,19 +352,20 @@
             <Component class="javax.swing.JComboBox" name="jComboBox_grade">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="12">
-                    <StringItem index="0" value="S1"/>
-                    <StringItem index="1" value="S2"/>
-                    <StringItem index="2" value="S3"/>
-                    <StringItem index="3" value="S4"/>
-                    <StringItem index="4" value="S5"/>
-                    <StringItem index="5" value="T1"/>
-                    <StringItem index="6" value="T2"/>
-                    <StringItem index="7" value="T3"/>
-                    <StringItem index="8" value="T4"/>
-                    <StringItem index="9" value="T5"/>
-                    <StringItem index="10" value="T6"/>
-                    <StringItem index="11" value="T7"/>
+                  <StringArray count="13">
+                    <StringItem index="0" value="-"/>
+                    <StringItem index="1" value="S1"/>
+                    <StringItem index="2" value="S2"/>
+                    <StringItem index="3" value="S3"/>
+                    <StringItem index="4" value="S4"/>
+                    <StringItem index="5" value="S5"/>
+                    <StringItem index="6" value="T1"/>
+                    <StringItem index="7" value="T2"/>
+                    <StringItem index="8" value="T3"/>
+                    <StringItem index="9" value="T4"/>
+                    <StringItem index="10" value="T5"/>
+                    <StringItem index="11" value="T6"/>
+                    <StringItem index="12" value="T7"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -419,6 +423,9 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Analyser">
                 <Property name="tabTitle" type="java.lang.String" value="Analyser"/>
+                <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/campmanager/resources/rules24.png"/>
+                </Property>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -443,7 +450,7 @@
                       <Component id="jLabel_nationality_status_analyser" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="152" max="-2" attributes="0"/>
-                      <EmptySpace pref="123" max="32767" attributes="0"/>
+                      <EmptySpace pref="116" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

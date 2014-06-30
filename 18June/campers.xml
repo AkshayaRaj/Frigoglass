@@ -1,0 +1,255 @@
+<Container>
+  <count>10</count>
+  <camperLL>
+    <Person>
+      <name>Primo Cruz Verceles</name>
+      <cec__no>80510</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>50</area>
+        <number>5951327</number>
+      </phone__no>
+      <hash>27762931</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>108 A</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Dominador Rustia Pardales</name>
+      <cec__no>1084227</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>0</area>
+        <number>0</number>
+      </phone__no>
+      <hash>19673197</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>108 A</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Eugenio Pardales</name>
+      <cec__no>1156959</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>0</area>
+        <number>0</number>
+      </phone__no>
+      <hash>9034792</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>108 A</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Fructuso P Misa</name>
+      <cec__no>248451</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>50</area>
+        <number>1789135</number>
+      </phone__no>
+      <hash>15779368</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>108 B</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Joel Serad Libre</name>
+      <cec__no>1008421</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>55</area>
+        <number>4464378</number>
+      </phone__no>
+      <hash>9458173</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>108 B</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Jayson Barrio</name>
+      <cec__no>1102612</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>50</area>
+        <number>1693484</number>
+      </phone__no>
+      <hash>14135770</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>108 B</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Alberto Untalan Napacao</name>
+      <cec__no>1089868</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>50</area>
+        <number>8277317</number>
+      </phone__no>
+      <hash>16076660</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>206 A</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Henry Magalang Monterola</name>
+      <cec__no>1089871</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>55</area>
+        <number>4094481</number>
+      </phone__no>
+      <hash>13241220</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>206 A</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Jonald Ardina Ardita</name>
+      <cec__no>1139699</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>0</area>
+        <number>0</number>
+      </phone__no>
+      <hash>15708505</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>206 A</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+    <Person>
+      <name>Carmelo Lontok Gabog</name>
+      <cec__no>1147195</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>56</area>
+        <number>7935637</number>
+      </phone__no>
+      <hash>22778431</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>206 B</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
+  </camperLL>
+</Container>

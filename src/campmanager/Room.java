@@ -138,6 +138,11 @@ public class Room {
         return full;
     }
 
+    public boolean equals(Room roomToCompare){
+        if(this.getRoom_no().equals(roomToCompare.getRoom_no()) && this.getBld_no().equals(roomToCompare.getBld_no()))
+            return true;
+        return false;
+    }
     public void setFull(boolean full) {
         this.full = full;
     }

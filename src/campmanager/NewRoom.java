@@ -235,8 +235,8 @@ public class NewRoom extends javax.swing.JDialog {
         
         room.setRoom_no(jTextField_room_no.getText().trim()+" "+jTextField_room_code.getText().trim());
         try{
-        room.setCost(Integer.parseInt(jTextField_bed_cost.getText()));
-        room.setRoom_cost(Integer.parseInt(jTextField_room_cost.getText()));
+        room.setCost(Integer.parseInt(jTextField_bed_cost.getText().trim()));
+        room.setRoom_cost(Integer.parseInt(jTextField_room_cost.getText().trim()));
         }
         catch(IllegalArgumentException e){
             room.setCost(500);

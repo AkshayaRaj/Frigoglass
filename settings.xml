@@ -53,31 +53,31 @@
     <null/>
     <null/>
   </rooms>
-  <roomCount>2</roomCount>
+  <roomCount>46</roomCount>
   <roomLL>
     <campmanager.Room>
-      <bld__no>J 3</bld__no>
-      <room__no>101 A</room__no>
+      <bld__no>J 10</bld__no>
+      <room__no>108 A</room__no>
       <capacity>3</capacity>
       <cost>500</cost>
-      <occupancy>2</occupancy>
+      <occupancy>3</occupancy>
       <campers__in__room>
         <Person>
-          <name>sdfd</name>
-          <cec__no>324</cec__no>
-          <nationality>Bahrain</nationality>
+          <name>Primo Cruz Verceles</name>
+          <cec__no>80510</cec__no>
+          <nationality>Philippines</nationality>
           <phone__no>
-            <area>234</area>
-            <number>234234</number>
+            <area>50</area>
+            <number>5951327</number>
           </phone__no>
-          <hash>4986079</hash>
+          <hash>13709582</hash>
           <bedding>true</bedding>
-          <grade>S1</grade>
+          <grade>T1</grade>
           <newEmployee>false</newEmployee>
           <camp__location>Junior-NE</camp__location>
           <room>
-            <bld__no>J 3</bld__no>
-            <room__no>101 A</room__no>
+            <bld__no>J 10</bld__no>
+            <room__no>108 A</room__no>
             <capacity>0</capacity>
             <cost>0</cost>
             <occupancy>0</occupancy>
@@ -88,21 +88,282 @@
           </room>
         </Person>
         <Person>
-          <name>Tom Hanks</name>
-          <cec__no>New Joinee</cec__no>
-          <nationality>Croatia</nationality>
+          <name>Dominador Rustia Pardales</name>
+          <cec__no>1084227</cec__no>
+          <nationality>Philippines</nationality>
           <phone__no>
-            <area>234</area>
-            <number>23423</number>
+            <area>0</area>
+            <number>0</number>
           </phone__no>
-          <hash>3567154</hash>
-          <bedding>false</bedding>
-          <grade>S1</grade>
-          <newEmployee>true</newEmployee>
+          <hash>7853781</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
           <camp__location>Junior-NE</camp__location>
           <room>
-            <bld__no>J 3</bld__no>
-            <room__no>101 A</room__no>
+            <bld__no>J 10</bld__no>
+            <room__no>108 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Eugenio Pardales</name>
+          <cec__no>1156959</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>0</area>
+            <number>0</number>
+          </phone__no>
+          <hash>25940582</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 10</bld__no>
+            <room__no>108 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+      </campers__in__room>
+      <full>true</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 10</bld__no>
+      <room__no>108 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>3</occupancy>
+      <campers__in__room>
+        <Person>
+          <name>Fructuso P Misa</name>
+          <cec__no>248451</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>50</area>
+            <number>1789135</number>
+          </phone__no>
+          <hash>8312208</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 10</bld__no>
+            <room__no>108 B</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Joel Serad Libre</name>
+          <cec__no>1008421</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>55</area>
+            <number>4464378</number>
+          </phone__no>
+          <hash>32948688</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 10</bld__no>
+            <room__no>108 B</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Jayson Barrio</name>
+          <cec__no>1102612</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>50</area>
+            <number>1693484</number>
+          </phone__no>
+          <hash>24602693</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 10</bld__no>
+            <room__no>108 B</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+      </campers__in__room>
+      <full>true</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 10</bld__no>
+      <room__no>206 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>3</occupancy>
+      <campers__in__room>
+        <Person>
+          <name>Alberto Untalan Napacao</name>
+          <cec__no>1089868</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>50</area>
+            <number>8277317</number>
+          </phone__no>
+          <hash>1084655</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 10</bld__no>
+            <room__no>206 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Henry Magalang Monterola</name>
+          <cec__no>1089871</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>55</area>
+            <number>4094481</number>
+          </phone__no>
+          <hash>5511912</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 10</bld__no>
+            <room__no>206 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Jonald Ardina Ardita</name>
+          <cec__no>1139699</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>0</area>
+            <number>0</number>
+          </phone__no>
+          <hash>28024947</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 10</bld__no>
+            <room__no>206 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+      </campers__in__room>
+      <full>true</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 10</bld__no>
+      <room__no>206 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>2</occupancy>
+      <campers__in__room>
+        <Person>
+          <name>Carmelo Lontok Gabog</name>
+          <cec__no>1147195</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>56</area>
+            <number>7935637</number>
+          </phone__no>
+          <hash>30725763</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 10</bld__no>
+            <room__no>206 B</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Oleem Bautista Saberon</name>
+          <cec__no>1139703</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>50</area>
+            <number>5952311</number>
+          </phone__no>
+          <hash>27877154</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 10</bld__no>
+            <room__no>206 B</room__no>
             <capacity>0</capacity>
             <cost>0</cost>
             <occupancy>0</occupancy>
@@ -118,28 +379,28 @@
       <room__cost>18000</room__cost>
     </campmanager.Room>
     <campmanager.Room>
-      <bld__no>J 4</bld__no>
-      <room__no>104 -</room__no>
-      <capacity>2</capacity>
+      <bld__no>J 10</bld__no>
+      <room__no>206 B </room__no>
+      <capacity>3</capacity>
       <cost>500</cost>
       <occupancy>1</occupancy>
       <campers__in__room>
         <Person>
-          <name>akshaya</name>
-          <cec__no>New Joinee</cec__no>
-          <nationality>Albania</nationality>
+          <name>Marlon Peralta</name>
+          <cec__no>73792</cec__no>
+          <nationality>Philippines</nationality>
           <phone__no>
-            <area>234</area>
-            <number>234234</number>
+            <area>0</area>
+            <number>0</number>
           </phone__no>
-          <hash>21644102</hash>
+          <hash>26381669</hash>
           <bedding>true</bedding>
-          <grade>S1</grade>
-          <newEmployee>true</newEmployee>
-          <camp__location>Labour-NE</camp__location>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
           <room>
-            <bld__no>J 4</bld__no>
-            <room__no>104 -</room__no>
+            <bld__no>J 10</bld__no>
+            <room__no>206 B </room__no>
             <capacity>0</capacity>
             <cost>0</cost>
             <occupancy>0</occupancy>
@@ -151,8 +412,662 @@
         </Person>
       </campers__in__room>
       <full>false</full>
-      <camp>2</camp>
-      <room__cost>1200</room__cost>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 12</bld__no>
+      <room__no>103 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>3</occupancy>
+      <campers__in__room>
+        <Person>
+          <name>Ismael Mirales</name>
+          <cec__no>81699</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>50</area>
+            <number>7456956</number>
+          </phone__no>
+          <hash>24642012</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 12</bld__no>
+            <room__no>103 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Alan Jimenez Ferrera</name>
+          <cec__no>125638</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>50</area>
+            <number>6854031</number>
+          </phone__no>
+          <hash>15448894</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 12</bld__no>
+            <room__no>103 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Edmon Saldaen</name>
+          <cec__no>128896</cec__no>
+          <nationality>Philippines</nationality>
+          <phone__no>
+            <area>55</area>
+            <number>7661824</number>
+          </phone__no>
+          <hash>28225166</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 12</bld__no>
+            <room__no>103 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+      </campers__in__room>
+      <full>true</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 12</bld__no>
+      <room__no>103 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>3</occupancy>
+      <campers__in__room>
+        <Person>
+          <name>Tummala Srinivas Chinna Reddy</name>
+          <cec__no>210472</cec__no>
+          <nationality>India</nationality>
+          <phone__no>
+            <area>55</area>
+            <number>3133201</number>
+          </phone__no>
+          <hash>2423355</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 12</bld__no>
+            <room__no>103 B</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Naveed Muhammad Ashraf</name>
+          <cec__no>240575</cec__no>
+          <nationality>Pakistan</nationality>
+          <phone__no>
+            <area>0</area>
+            <number>0</number>
+          </phone__no>
+          <hash>20409090</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 12</bld__no>
+            <room__no>103 B</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>MOHAMED ARSHAD</name>
+          <cec__no>New Joinee</cec__no>
+          <nationality>India</nationality>
+          <phone__no>
+            <area>0</area>
+            <number>0</number>
+          </phone__no>
+          <hash>923857</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>true</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 12</bld__no>
+            <room__no>103 B</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+      </campers__in__room>
+      <full>true</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 12</bld__no>
+      <room__no>203 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>2</occupancy>
+      <campers__in__room>
+        <Person>
+          <name>Mohd. Maroof</name>
+          <cec__no>81667</cec__no>
+          <nationality>Pakistan</nationality>
+          <phone__no>
+            <area>55</area>
+            <number>8526391</number>
+          </phone__no>
+          <hash>14817088</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 12</bld__no>
+            <room__no>203 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+        <Person>
+          <name>Mumtaz Ali Amir Gul</name>
+          <cec__no>1052915</cec__no>
+          <nationality>Pakistan</nationality>
+          <phone__no>
+            <area>55</area>
+            <number>6708931</number>
+          </phone__no>
+          <hash>16829765</hash>
+          <bedding>true</bedding>
+          <grade>T1</grade>
+          <newEmployee>false</newEmployee>
+          <camp__location>Junior-NE</camp__location>
+          <room>
+            <bld__no>J 12</bld__no>
+            <room__no>203 A</room__no>
+            <capacity>0</capacity>
+            <cost>0</cost>
+            <occupancy>0</occupancy>
+            <campers__in__room/>
+            <full>false</full>
+            <camp>0</camp>
+            <room__cost>0</room__cost>
+          </room>
+        </Person>
+      </campers__in__room>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 12</bld__no>
+      <room__no>207 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 12</bld__no>
+      <room__no>208 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 12</bld__no>
+      <room__no>208 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 3</bld__no>
+      <room__no>205 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 3</bld__no>
+      <room__no>205 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 4</bld__no>
+      <room__no>106 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 4</bld__no>
+      <room__no>106 B </room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 6</bld__no>
+      <room__no>108 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 6</bld__no>
+      <room__no>207 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>101 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>101 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>102 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>102 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>103 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>104 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>104 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>105 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>105 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>106 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>107 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>107 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>108 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>108 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>201 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>201 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>202 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>202 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>203 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>204 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>204 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>205 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>205 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>206 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>206 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>207 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>207 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>208 A</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
+    </campmanager.Room>
+    <campmanager.Room>
+      <bld__no>J 9</bld__no>
+      <room__no>208 B</room__no>
+      <capacity>3</capacity>
+      <cost>500</cost>
+      <occupancy>0</occupancy>
+      <campers__in__room/>
+      <full>false</full>
+      <camp>0</camp>
+      <room__cost>18000</room__cost>
     </campmanager.Room>
   </roomLL>
 </Parameters>
