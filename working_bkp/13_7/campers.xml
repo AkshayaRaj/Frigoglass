@@ -1,15 +1,41 @@
 <Container>
-  <count>23</count>
+  <count>21</count>
   <camperLL>
+    <Person>
+      <name>Primo Cruz Verceles</name>
+      <cec__no>80510</cec__no>
+      <nationality>Philippines</nationality>
+      <phone__no>
+        <area>50</area>
+        <number>5951327</number>
+      </phone__no>
+      <hash>13709582</hash>
+      <bedding>true</bedding>
+      <grade>T1</grade>
+      <transferData/>
+      <newEmployee>false</newEmployee>
+      <camp__location>Junior-NE</camp__location>
+      <room>
+        <bld__no>J 10</bld__no>
+        <room__no>108 A</room__no>
+        <capacity>0</capacity>
+        <cost>0</cost>
+        <occupancy>0</occupancy>
+        <campers__in__room/>
+        <full>false</full>
+        <camp>0</camp>
+        <room__cost>0</room__cost>
+      </room>
+    </Person>
     <Person>
       <name>Eugenio Pardales</name>
       <cec__no>1156959</cec__no>
-      <nationality>Poland</nationality>
+      <nationality>Philippines</nationality>
       <phone__no>
         <area>0</area>
         <number>0</number>
       </phone__no>
-      <hash>6911681</hash>
+      <hash>25940582</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -35,7 +61,7 @@
         <area>50</area>
         <number>1789135</number>
       </phone__no>
-      <hash>32522187</hash>
+      <hash>8312208</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -61,7 +87,7 @@
         <area>55</area>
         <number>4464378</number>
       </phone__no>
-      <hash>14829901</hash>
+      <hash>32948688</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -87,7 +113,7 @@
         <area>50</area>
         <number>1693484</number>
       </phone__no>
-      <hash>25402585</hash>
+      <hash>24602693</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -113,7 +139,7 @@
         <area>50</area>
         <number>8277317</number>
       </phone__no>
-      <hash>12005334</hash>
+      <hash>1084655</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -139,7 +165,7 @@
         <area>55</area>
         <number>4094481</number>
       </phone__no>
-      <hash>14633388</hash>
+      <hash>5511912</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -165,7 +191,7 @@
         <area>0</area>
         <number>0</number>
       </phone__no>
-      <hash>5227483</hash>
+      <hash>28024947</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -191,7 +217,7 @@
         <area>56</area>
         <number>7935637</number>
       </phone__no>
-      <hash>27522655</hash>
+      <hash>30725763</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -217,7 +243,7 @@
         <area>50</area>
         <number>5952311</number>
       </phone__no>
-      <hash>11384098</hash>
+      <hash>27877154</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -236,14 +262,14 @@
       </room>
     </Person>
     <Person>
-      <name>Primo Cruz Verceles</name>
-      <cec__no>80510</cec__no>
+      <name>Marlon Peralta</name>
+      <cec__no>73792</cec__no>
       <nationality>Philippines</nationality>
       <phone__no>
-        <area>50</area>
-        <number>5951327</number>
+        <area>0</area>
+        <number>0</number>
       </phone__no>
-      <hash>20045261</hash>
+      <hash>26381669</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -251,7 +277,7 @@
       <camp__location>Junior-NE</camp__location>
       <room>
         <bld__no>J 10</bld__no>
-        <room__no>206 B</room__no>
+        <room__no>206 B </room__no>
         <capacity>0</capacity>
         <cost>0</cost>
         <occupancy>0</occupancy>
@@ -269,7 +295,7 @@
         <area>50</area>
         <number>7456956</number>
       </phone__no>
-      <hash>13785129</hash>
+      <hash>24642012</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -295,7 +321,7 @@
         <area>50</area>
         <number>6854031</number>
       </phone__no>
-      <hash>7691554</hash>
+      <hash>15448894</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -321,7 +347,7 @@
         <area>55</area>
         <number>7661824</number>
       </phone__no>
-      <hash>24309803</hash>
+      <hash>28225166</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -347,7 +373,7 @@
         <area>55</area>
         <number>3133201</number>
       </phone__no>
-      <hash>30452004</hash>
+      <hash>2423355</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -373,7 +399,7 @@
         <area>0</area>
         <number>0</number>
       </phone__no>
-      <hash>25406055</hash>
+      <hash>20409090</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -399,7 +425,7 @@
         <area>0</area>
         <number>0</number>
       </phone__no>
-      <hash>30503800</hash>
+      <hash>923857</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -425,7 +451,7 @@
         <area>55</area>
         <number>8526391</number>
       </phone__no>
-      <hash>30554433</hash>
+      <hash>14817088</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -451,7 +477,7 @@
         <area>55</area>
         <number>6708931</number>
       </phone__no>
-      <hash>30221910</hash>
+      <hash>16829765</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
@@ -477,14 +503,14 @@
         <area>0</area>
         <number>0</number>
       </phone__no>
-      <hash>2637510</hash>
+      <hash>7853781</hash>
       <bedding>true</bedding>
       <grade>T1</grade>
       <transferData/>
       <newEmployee>false</newEmployee>
       <camp__location>Junior-NE</camp__location>
       <room>
-        <bld__no>J 12</bld__no>
+        <bld__no>J 9</bld__no>
         <room__no>203 A</room__no>
         <capacity>0</capacity>
         <cost>0</cost>
@@ -495,9 +521,6 @@
         <room__cost>0</room__cost>
       </room>
     </Person>
-    <Person reference="../Person"/>
-    <Person reference="../Person"/>
-    <Person reference="../Person[19]"/>
-    <Person reference="../Person[10]"/>
+    <Person reference="../Person[20]"/>
   </camperLL>
 </Container>

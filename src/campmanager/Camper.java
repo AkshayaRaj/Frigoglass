@@ -6,6 +6,8 @@
 
 package campmanager;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Akshaya
@@ -50,10 +52,13 @@ public class Camper {
     private boolean bedding;
     private String religion;
     private String grade;
+    ArrayList<Transfer> transferData;
     
     Camper() {
-       
+       transferData=new ArrayList<Transfer>();
     }
+    
+    
     public enum location {JuniorNE,SeniorNE,LabourNE,LabourS,JuniorS};
     public static String location[]=new String []{"Junior-NE","Senior-NE","Labour-NE","Labour-S","Junior-S"};
     public boolean newEmployee;
@@ -177,7 +182,48 @@ public class Camper {
         this.nationality=nationality;
         this.phone_no=phone_no;
         this.loc=loc;
+        transferData=new ArrayList<Transfer>();
                        
     }
+    
+    public void addTransfer(Transfer transfer){
+        transferData.add(transfer);
+    }
+
+    public ArrayList<Transfer> getTransferData() {
+        return transferData;
+    }
+
+    public void setTransferData(ArrayList<Transfer> transferData) {
+        this.transferData = transferData;
+    }
+    
+    public Transfer getRecentTransfer(){
+    return transferData.get(transferData.size()-1);
+}
+    public boolean hasTransfer(){
+        return !transferData.isEmpty();
+    }
+
+    public static String[] getLocation() {
+        return location;
+    }
+
+    public static void setLocation(String[] location) {
+        Camper.location = location;
+    }
+    
+    
+}
+
+class Transfer{
+    public  String from_camp,to_camp;
+    public  String date;
+    public String from_room,to_room;
+    public String from_building,to_building;
+
+      
+    
+    
 }
 

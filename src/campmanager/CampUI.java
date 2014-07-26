@@ -19,6 +19,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -49,9 +52,14 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -338,6 +346,7 @@ public class CampUI extends javax.swing.JFrame {
         FileOutputStream fop1=null;
         File xml_file1;
         try{
+            
             //xml_file=new File("c:/campers.xml");
             xml_file1=new File("campers.xml");
             fop1=new FileOutputStream(xml_file1);
@@ -394,9 +403,11 @@ public class CampUI extends javax.swing.JFrame {
        jLabel_available_beds.setText(Integer.toString(new GetStats(camperLL,roomsLL).getAvailableBeds()));
        jLabel_count.setText(Integer.toString(count));
         DefaultTableModel model=(DefaultTableModel) jTable_records.getModel();
+        DefaultTableModel model_recent_transfers=(DefaultTableModel) jTable_transfers.getModel();
          jLabel_count.setText( Integer.toString(count));
         //clear !!
         model.setRowCount(0);
+        model_recent_transfers.setRowCount(0);
         
         //set column width for serial # 
         ListIterator itr=camperLL.listIterator();
@@ -419,6 +430,18 @@ public class CampUI extends javax.swing.JFrame {
             }
             catch(Exception e){
                 System.err.println("Model.addrow() Exceptioin");
+                //System.err.println(printStackTrace());
+                //e.printStackTrace();
+                return;
+            }
+            try{
+                if(c.hasTransfer()){
+                    model_recent_transfers.addRow(new Object[]{c.getName(),c.getRecentTransfer().date});
+                }
+                
+            }
+            catch(Exception e){
+                System.err.println("Model_transfer_data.addrow() Exceptioin");
                 //System.err.println(printStackTrace());
                 //e.printStackTrace();
                 return;
@@ -579,12 +602,33 @@ public class CampUI extends javax.swing.JFrame {
     Sheet sheet = wb.createSheet("new sheet");
     Row row = null;
     Cell cell = null;
-    for (int i=0;i<dtm.getRowCount();i++) {
-        row = sheet.createRow(i);
-        for (int j=0;j<dtm.getColumnCount();j++) {
-             
-            cell = row.createCell(j);
-            cell.setCellValue( dtm.getValueAt(i, j).toString());
+    row=sheet.createRow(0);
+    
+    HSSFFont font=(HSSFFont) wb.createFont();
+    font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+    HSSFCellStyle style = (HSSFCellStyle) wb.createCellStyle();
+    
+    style.setFont(font);
+    
+ 
+    for(int t=0;t<dtm.getColumnCount()-1;t++){
+        cell=row.createCell(t);
+        cell.setCellStyle(style);
+        cell.setCellValue(dtm.getColumnName(t));
+        }
+                
+    HSSFCellStyle style_gray = (HSSFCellStyle) wb.createCellStyle();
+    style_gray.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+   // style_gray.setFillPattern(CellStyle.ALT_BARS);
+    for (int i=1;i<=dtm.getRowCount();i++) {
+        row = sheet.createRow(i); 
+        
+        for (int j=0;j<dtm.getColumnCount()-1;j++) {             
+            cell = row.createCell(j);      
+            if(i%2==0)
+            cell.setCellStyle(style_gray);
+            cell.setCellValue( dtm.getValueAt(i-1, j).toString());
+            
         }
     }
      
@@ -648,7 +692,7 @@ public class CampUI extends javax.swing.JFrame {
         jTextField_filter = new javax.swing.JTextField();
         jPanel7_queries1 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTable_room = new javax.swing.JTable();
+        jTable_transfers = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jLabel_pie_nationality = new javax.swing.JLabel();
         jLabel_radar_camp = new javax.swing.JLabel();
@@ -1048,9 +1092,9 @@ public class CampUI extends javax.swing.JFrame {
 
         jScrollPane6.getAccessibleContext().setAccessibleName("Queries");
 
-        jPanel7_queries1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Transfer History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+        jPanel7_queries1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Recent Transfer History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
-        jTable_room.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_transfers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -1061,7 +1105,7 @@ public class CampUI extends javax.swing.JFrame {
                 "Name", "Transfer Date"
             }
         ));
-        jScrollPane8.setViewportView(jTable_room);
+        jScrollPane8.setViewportView(jTable_transfers);
 
         javax.swing.GroupLayout jPanel7_queries1Layout = new javax.swing.GroupLayout(jPanel7_queries1);
         jPanel7_queries1.setLayout(jPanel7_queries1Layout);
@@ -2036,7 +2080,15 @@ public class CampUI extends javax.swing.JFrame {
 
     private void jPanel6ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel6ComponentShown
         // TODO add your handling code here:
-
+       Socket sock=new Socket();
+       InetSocketAddress addr= new InetSocketAddress("www.google.com",80);
+       try{
+           sock.connect(addr,3000);
+       }
+       catch(Exception e){
+           JOptionPane.showMessageDialog(null,"Internet connection required","Information",JOptionPane.INFORMATION_MESSAGE);
+           return;
+       }
         GetStats stat=new GetStats(camperLL,roomsLL);
         try {
             //jLabel_pie_nationality.setText("");
@@ -2776,7 +2828,7 @@ UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
     private javax.swing.JTabbedPane jTabbedPane_import;
     private javax.swing.JTable jTable_camper;
     private javax.swing.JTable jTable_records;
-    private javax.swing.JTable jTable_room;
+    private javax.swing.JTable jTable_transfers;
     private javax.swing.JTextField jTextField_filter;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;

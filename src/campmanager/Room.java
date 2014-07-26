@@ -115,6 +115,7 @@ public class Room {
                 if(camper_local.getName().equals(camper.getName())){
                     System.out.println("yo");
                     campers_in_room.remove(itr.nextIndex()-1);
+                    break;
                 }
             }
               //  System.out.println(campers_in_room.remove(camper));
